@@ -31,6 +31,13 @@ class LocationFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'business_hours_start' => $this->faker->time(),
             'business_hours_end' => $this->faker->time(),
+            'workday_0' => rand(0, 1),
+            'workday_1' => rand(0, 1),
+            'workday_2' => rand(0, 1),
+            'workday_3' => rand(0, 1),
+            'workday_4' => rand(0, 1),
+            'workday_5' => rand(0, 1),
+            'workday_6' => rand(0, 1),
             'description' => $this->faker->text(150)
         ];
     }
@@ -40,7 +47,7 @@ class LocationFactory extends Factory
         return $this->afterCreating(function (Location $location) {
     //         Social::factory()->create(['location_id' => $location->id]);
 
-                Photo::factory()->count(rand(0, 5))->create(['location_id' => $location->id]);
+            Photo::factory()->count(rand(0, 5))->create(['location_id' => $location->id]);
         });
     }
 }

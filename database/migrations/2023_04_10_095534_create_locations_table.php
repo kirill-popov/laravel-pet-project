@@ -33,6 +33,13 @@ class CreateLocationsTable extends Migration
             $table->string('email', 50);
             $table->time('business_hours_start');
             $table->time('business_hours_end');
+            $table->unsignedTinyInteger('workday_0');
+            $table->unsignedTinyInteger('workday_1');
+            $table->unsignedTinyInteger('workday_2');
+            $table->unsignedTinyInteger('workday_3');
+            $table->unsignedTinyInteger('workday_4');
+            $table->unsignedTinyInteger('workday_5');
+            $table->unsignedTinyInteger('workday_6');
             $table->string('description', 200);
             $table->timestamps();
 
@@ -64,15 +71,6 @@ class CreateLocationsTable extends Migration
 
             $table->index('location_id');
         });
-
-        Schema::create('workdays', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('location_id')->constrained()->cascadeOnDelete();
-            $table->unsignedTinyInteger('day');
-            $table->unsignedTinyInteger('value');
-
-            $table->index('location_id');
-        });
     }
 
     /**
@@ -96,14 +94,9 @@ class CreateLocationsTable extends Migration
             $table->dropForeign('photos_location_id_foreign');
         });
 
-        Schema::table('workdays', function (Blueprint $table) {
-            $table->dropForeign('workdays_location_id_foreign');
-        });
-
         Schema::dropIfExists('locations');
         Schema::dropIfExists('photos');
         Schema::dropIfExists('prefectures');
         Schema::dropIfExists('socials');
-        Schema::dropIfExists('workdays');
     }
 }
