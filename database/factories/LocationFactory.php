@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Location;
+use App\Models\Photo;
 use App\Models\Prefecture;
 use App\Models\Social;
 use Faker\Provider\Address;
@@ -34,10 +35,12 @@ class LocationFactory extends Factory
         ];
     }
 
-    // public function configure()
-    // {
-    //     return $this->afterCreating(function (Location $location) {
+    public function configure()
+    {
+        return $this->afterCreating(function (Location $location) {
     //         Social::factory()->create(['location_id' => $location->id]);
-    //     });
-    // }
+
+                Photo::factory()->count(rand(0, 5))->create(['location_id' => $location->id]);
+        });
+    }
 }
