@@ -20,4 +20,9 @@ class Location extends Model
     // {
     //     return $this->hasMany(Social::class);
     // }
+
+    public function photos(): HasMany
+    {
+        return $this->hasMany(Photo::class);
+    }
 }
