@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 
 class LocationsController extends Controller
@@ -11,9 +12,22 @@ class LocationsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $locations = [
+            'location1',
+            'location2',
+            'location3',
+        ];
+
+        Log::debug('An informational message.');
+
+        if ($request->is('api/*')) {
+            return $locations;
+        }
+
+
+
     }
 
     /**
