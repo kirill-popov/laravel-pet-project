@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Models\Prefecture;
 use Faker\Provider\Address;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 class LocationFactory extends Factory
 {
@@ -22,7 +21,7 @@ class LocationFactory extends Factory
             'latitude' => $this->faker->latitude(),
             'longitude' => $this->faker->longitude(),
             'zip' => Address::postcode(),
-            'prefecture_id'=> Prefecture::factory(),
+            'prefecture_id'=> $this->faker->randomElement(Prefecture::all())->id,
             'address' => $this->faker->address(),
             'address2' => $this->faker->address(),
             'phone' => $this->faker->phoneNumber(),
