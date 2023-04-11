@@ -15,4 +15,9 @@ class Location extends Model
     {
         return $this->belongsTo(Prefecture::class);
     }
+
+    // public function socials(): HasMany
+    // {
+    //     return $this->hasMany(Social::class);
+    // }
 }

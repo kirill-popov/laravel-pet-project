@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Location;
 use App\Models\Prefecture;
+use App\Models\Social;
 use Faker\Provider\Address;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -31,4 +33,11 @@ class LocationFactory extends Factory
             'description' => $this->faker->text(150)
         ];
     }
+
+    // public function configure()
+    // {
+    //     return $this->afterCreating(function (Location $location) {
+    //         Social::factory()->create(['location_id' => $location->id]);
+    //     });
+    // }
 }
