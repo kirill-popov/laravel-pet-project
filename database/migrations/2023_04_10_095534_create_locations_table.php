@@ -70,6 +70,7 @@ class CreateLocationsTable extends Migration
             $table->string('url', 100);
 
             $table->index('location_id');
+            $table->index('default');
         });
     }
 

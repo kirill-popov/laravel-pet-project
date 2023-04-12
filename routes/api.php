@@ -16,5 +16,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::apiResource('locations', LocationsController::class)->only([
-    'index'
+    'index', 'show'
 ]);

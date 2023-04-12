@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Log;
+use App\Models\Location;
 use Illuminate\Http\Request;
 
 class LocationsController extends Controller
@@ -14,20 +14,13 @@ class LocationsController extends Controller
      */
     public function index(Request $request)
     {
-        $locations = [
-            'location1',
-            'location2',
-            'location3',
-        ];
-
-        Log::debug('An informational message.');
-
         if ($request->is('api/*')) {
+            $locations = Location::select('id', 'name', 'address', 'phone')
+                ->with('defaultPhoto')
+                ->orderBy('name')
+                ->paginate(10);
             return $locations;
         }
-
-
-
     }
 
     /**
@@ -57,9 +50,14 @@ class LocationsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, Location $location)
     {
-        //
+        if ($request->is('api/*')) {
+            return $location->load([
+                'prefecture:id,title',
+                'photos:location_id,default,url'
+            ]);
+        }
     }
 
     /**
