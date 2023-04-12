@@ -45,9 +45,8 @@ class LocationFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (Location $location) {
-    //         Social::factory()->create(['location_id' => $location->id]);
-
-            Photo::factory()->count(rand(0, 5))->create(['location_id' => $location->id]);
+            Social::factory()->create(['location_id' => $location->id]);
+            Photo::factory()->count(rand(1, 5))->create(['location_id' => $location->id]);
         });
     }
 }

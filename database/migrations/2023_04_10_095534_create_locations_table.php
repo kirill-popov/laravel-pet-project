@@ -51,8 +51,6 @@ class CreateLocationsTable extends Migration
         Schema::create('socials', function (Blueprint $table) {
             $table->id();
             $table->foreignId('location_id')->constrained()->cascadeOnDelete();
-            // $table->enum('type', ['facebook', 'instagram', 'twitter', 'line', 'tiktok', 'youtube']);
-            // $table->string('url', 200);
             $table->string('facebook', 200)->nullable();
             $table->string('instagram', 200)->nullable();
             $table->string('twitter', 200)->nullable();

@@ -17,10 +17,10 @@ class Location extends Model
         return $this->belongsTo(Prefecture::class);
     }
 
-    // public function socials(): HasMany
-    // {
-    //     return $this->hasMany(Social::class);
-    // }
+    public function socials(): hasOne
+    {
+        return $this->hasOne(Social::class);
+    }
 
     public function photos(): HasMany
     {
