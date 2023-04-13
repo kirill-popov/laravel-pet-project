@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LocationsController;
 use App\Http\Controllers\MapController;
+use App\Http\Controllers\TileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,5 +22,9 @@ Route::apiResource('locations', LocationsController::class)->only([
 ]);
 
 Route::apiResource('maps', MapController::class)->only([
+    'index', 'show'
+]);
+
+Route::apiResource('tiles', TileController::class)->only([
     'index', 'show'
 ]);
