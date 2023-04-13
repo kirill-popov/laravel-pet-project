@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LocationsController;
+use App\Http\Controllers\MapController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,5 +17,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::apiResource('locations', LocationsController::class)->only([
+    'index', 'show'
+]);
+
+Route::apiResource('maps', MapController::class)->only([
     'index', 'show'
 ]);
