@@ -17,6 +17,11 @@ class Location extends Model
         return $this->belongsTo(Prefecture::class);
     }
 
+    public function shop(): BelongsTo
+    {
+        return $this->belongsTo(Shop::class);
+    }
+
     public function socials(): hasOne
     {
         return $this->hasOne(Social::class);

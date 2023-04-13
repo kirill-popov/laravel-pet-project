@@ -16,8 +16,8 @@ class LocationSeeder extends Seeder
     public function run()
     {
         Log::debug('Locations seeder');
-        Location::factory()
-            ->count(50)
-            ->create();
+        // Location::factory()
+        //     ->count(50)
+        //     ->create();
     }
 }

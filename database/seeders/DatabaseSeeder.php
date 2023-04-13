@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             PrefectureSeeder::class,
-            LocationSeeder::class
+            ShopSeeder::class
         ]);
     }
 }

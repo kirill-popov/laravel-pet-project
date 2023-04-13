@@ -19,10 +19,17 @@ class CreateLocationsTable extends Migration
             $table->string('title', 30);
         });
 
-        Schema::create('locations', function (Blueprint $table) {
+        Schema::create('shops', function (Blueprint $table) {
             $table->id();
             $table->string('name', 60);
+        });
+
+        Schema::create('locations', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('shop_id')->constrained()->cascadeOnDelete();
+            $table->string('name', 120);
             $table->unsignedTinyInteger('status')->default(1);
+            $table->unsignedTinyInteger('default');
             $table->decimal('latitude', 10, 8);
             $table->decimal('longitude', 11, 8);
             $table->string('zip', 20);

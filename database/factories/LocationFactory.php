@@ -8,9 +8,12 @@ use App\Models\Prefecture;
 use App\Models\Social;
 use Faker\Provider\Address;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Log;
 
 class LocationFactory extends Factory
 {
+    protected $model = Location::class;
+
     /**
      * Define the model's default state.
      *
@@ -19,8 +22,11 @@ class LocationFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->words(3, true),
+            'shop_id' => null,
+            // 'name' => $this->shop()->name . ' - ' . $this->faker->words(3, true),
+            'name' => '',
             'status' => $this->faker->numberBetween(0, 1),
+            'default' => 0,
             'latitude' => $this->faker->latitude(),
             'longitude' => $this->faker->longitude(),
             'zip' => Address::postcode(),
@@ -44,6 +50,7 @@ class LocationFactory extends Factory
 
     public function configure()
     {
+        Log::debug('LocationFactory conf');
         return $this->afterCreating(function (Location $location) {
             Social::factory()->create(['location_id' => $location->id]);
             Photo::factory()->count(rand(1, 5))->create(['location_id' => $location->id]);
