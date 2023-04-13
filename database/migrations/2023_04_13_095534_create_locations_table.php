@@ -54,9 +54,7 @@ class CreateLocationsTable extends Migration
     {
         Schema::table('locations', function (Blueprint $table) {
             $table->dropForeign('locations_prefecture_id_foreign');
-            $table->dropIndex('locations_prefecture_id_index');
             $table->dropForeign('locations_shop_id_foreign');
-            $table->dropIndex('locations_shop_id_index');
         });
 
         Schema::dropIfExists('locations');

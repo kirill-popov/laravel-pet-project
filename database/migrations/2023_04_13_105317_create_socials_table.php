@@ -36,7 +36,6 @@ class CreateSocialsTable extends Migration
     {
         Schema::table('socials', function (Blueprint $table) {
             $table->dropForeign('socials_location_id_foreign');
-            $table->dropIndex('socials_location_id_index');
         });
 
         Schema::dropIfExists('socials');
