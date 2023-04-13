@@ -26,7 +26,7 @@ class LocationFactory extends Factory
             // 'name' => $this->shop()->name . ' - ' . $this->faker->words(3, true),
             'name' => '',
             'status' => $this->faker->numberBetween(0, 1),
-            'default' => 0,
+            'is_default' => 0,
             'latitude' => $this->faker->latitude(),
             'longitude' => $this->faker->longitude(),
             'zip' => Address::postcode(),

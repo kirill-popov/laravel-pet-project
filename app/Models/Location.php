@@ -35,7 +35,7 @@ class Location extends Model
     public function defaultPhoto(): HasOne
     {
         $photoQ = $this->hasOne(Photo::class)
-            ->orderBy('default', 'desc')
+            ->orderBy('is_default', 'desc')
             ->orderBy('id', 'asc');
         return $photoQ;
     }

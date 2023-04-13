@@ -29,7 +29,7 @@ class CreateLocationsTable extends Migration
             $table->foreignId('shop_id')->constrained()->cascadeOnDelete();
             $table->string('name', 120);
             $table->unsignedTinyInteger('status')->default(1);
-            $table->unsignedTinyInteger('default');
+            $table->unsignedTinyInteger('is_default');
             $table->decimal('latitude', 10, 8);
             $table->decimal('longitude', 11, 8);
             $table->string('zip', 20);
@@ -71,11 +71,11 @@ class CreateLocationsTable extends Migration
         Schema::create('photos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('location_id')->constrained()->cascadeOnDelete();
-            $table->unsignedTinyInteger('default');
+            $table->unsignedTinyInteger('is_default');
             $table->string('url', 100);
 
             $table->index('location_id');
-            $table->index('default');
+            $table->index('is_default');
         });
     }
 
@@ -89,6 +89,8 @@ class CreateLocationsTable extends Migration
         Schema::table('locations', function (Blueprint $table) {
             $table->dropForeign('locations_prefecture_id_foreign');
             $table->dropIndex('locations_prefecture_id_index');
+            $table->dropForeign('locations_shop_id_foreign');
+            $table->dropIndex('locations_shop_id_index');
         });
 
         Schema::table('socials', function (Blueprint $table) {
@@ -104,5 +106,6 @@ class CreateLocationsTable extends Migration
         Schema::dropIfExists('photos');
         Schema::dropIfExists('prefectures');
         Schema::dropIfExists('socials');
+        Schema::dropIfExists('shops');
     }
 }

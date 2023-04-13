@@ -14,7 +14,7 @@ class PhotoFactory extends Factory
     public function definition()
     {
         return [
-            'default' => 0,
+            'is_default' => 0,
             'url' => $this->faker->imageUrl()
         ];
     }

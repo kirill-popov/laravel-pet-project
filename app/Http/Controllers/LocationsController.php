@@ -55,7 +55,7 @@ class LocationsController extends Controller
         if ($request->is('api/*')) {
             return $location->load([
                 'prefecture:id,title',
-                'photos:location_id,default,url',
+                'photos:location_id,is_default,url',
                 'socials:location_id,facebook,instagram,twitter,line,tiktok,youtube'
             ]);
         }
