@@ -29,7 +29,6 @@ class CreateLocationsTable extends Migration
             $table->foreignId('shop_id')->constrained()->cascadeOnDelete();
             $table->string('name', 120);
             $table->unsignedTinyInteger('status')->default(1);
-            $table->unsignedTinyInteger('is_default');
             $table->decimal('latitude', 10, 8);
             $table->decimal('longitude', 11, 8);
             $table->string('zip', 20);
