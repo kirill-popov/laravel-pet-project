@@ -14,26 +14,6 @@ class CreateLocationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('prefectures', function (Blueprint $table) {
-            $table->id();
-            $table->string('title', 30);
-        });
-
-        Schema::create('shops', function (Blueprint $table) {
-            $table->id();
-            $table->string('name', 60);
-        });
-
-        Schema::create('maps', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('shop_id')->constrained()->cascadeOnDelete();
-            $table->unsignedInteger('default_location_id');
-            $table->unsignedTinyInteger('status');
-            $table->string('style', 2); // md, lg
-
-            $table->index('shop_id');
-        });
-
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('shop_id')->constrained()->cascadeOnDelete();
@@ -63,29 +43,6 @@ class CreateLocationsTable extends Migration
             $table->unique('name', 'unique_name');
             $table->unique('email', 'unique_email');
         });
-
-        Schema::create('socials', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('location_id')->constrained()->cascadeOnDelete();
-            $table->string('facebook', 200)->nullable();
-            $table->string('instagram', 200)->nullable();
-            $table->string('twitter', 200)->nullable();
-            $table->string('line', 200)->nullable();
-            $table->string('tiktok', 200)->nullable();
-            $table->string('youtube', 200)->nullable();
-
-            $table->index('location_id');
-        });
-
-        Schema::create('photos', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('location_id')->constrained()->cascadeOnDelete();
-            $table->unsignedTinyInteger('is_default');
-            $table->string('url', 100);
-
-            $table->index('location_id');
-            $table->index('is_default');
-        });
     }
 
     /**
@@ -102,19 +59,6 @@ class CreateLocationsTable extends Migration
             $table->dropIndex('locations_shop_id_index');
         });
 
-        Schema::table('socials', function (Blueprint $table) {
-            $table->dropForeign('socials_location_id_foreign');
-            $table->dropIndex('socials_location_id_index');
-        });
-
-        Schema::table('photos', function (Blueprint $table) {
-            $table->dropForeign('photos_location_id_foreign');
-        });
-
         Schema::dropIfExists('locations');
-        Schema::dropIfExists('photos');
-        Schema::dropIfExists('prefectures');
-        Schema::dropIfExists('socials');
-        Schema::dropIfExists('shops');
     }
 }
