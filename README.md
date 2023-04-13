@@ -18,15 +18,15 @@ To rollback tables:
 
 Locations:
 - api/locations/ - list, paginated
-- api/locations/?shop_id=<shop_id> - list filtered by shop_id
-- api/locations/<id> - single location details
+- api/locations/?shop_id={shop_id} - list filtered by shop_id
+- api/locations/{id} - single location details, includes 'socials' and 'photos' relation data
 
 
 Maps:
 - api/maps/ - list, paginated
-- api/maps/<id> - single map details
+- api/maps/{id} - single map details
 
 
 Tiles:
 - api/tiles/ - list, paginated
-- api/tiles/<id> - single tile details
+- api/tiles/{id} - single tile details
