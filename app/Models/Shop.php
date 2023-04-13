@@ -22,4 +22,9 @@ class Shop extends Model
     {
         return $this->hasOne(Map::class);
     }
+
+    public function tiles(): HasMany
+    {
+        return $this->hasMany(Tile::class);
+    }
 }
