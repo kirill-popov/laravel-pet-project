@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Location;
+use App\Models\Map;
 use App\Models\Shop;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
@@ -33,6 +34,16 @@ class ShopSeeder extends Seeder
                         $faker = app(Generator::class);
                         return ['name' => $shop->name . ' - ' . $faker->words(2, true)];
                     })
+            )
+            ->has(
+                Map::factory()
+                ->state(function(array $attributes, Shop $shop) {
+                    $faker = app(Generator::class);
+                    return [
+                        'shop_id' => $shop->id,
+                        'default_location_id' => Location::where('shop_id', '=', $shop->id)->get()->random()->id
+                    ];
+                })
             )
             ->create();
     }

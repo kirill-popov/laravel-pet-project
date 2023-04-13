@@ -24,6 +24,16 @@ class CreateLocationsTable extends Migration
             $table->string('name', 60);
         });
 
+        Schema::create('maps', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('shop_id')->constrained()->cascadeOnDelete();
+            $table->unsignedInteger('default_location_id');
+            $table->unsignedTinyInteger('status');
+            $table->string('style', 2); // md, lg
+
+            $table->index('shop_id');
+        });
+
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('shop_id')->constrained()->cascadeOnDelete();

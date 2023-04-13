@@ -39,4 +39,9 @@ class Location extends Model
             ->orderBy('id', 'asc');
         return $photoQ;
     }
+
+    public function map(): HasOne
+    {
+        return $this->hasOne(Map::class);
+    }
 }
