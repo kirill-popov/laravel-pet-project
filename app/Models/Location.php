@@ -32,6 +32,11 @@ class Location extends Model
         return $this->hasMany(Photo::class);
     }
 
+    /**
+     * Returns entity which is default one, otherwise the first one if there are no default
+     *
+     * @return HasOne
+     */
     public function defaultPhoto(): HasOne
     {
         $photoQ = $this->hasOne(Photo::class)

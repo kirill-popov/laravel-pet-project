@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\LocationCollection;
 use App\Models\Location;
 use Illuminate\Http\Request;
 
@@ -15,10 +16,16 @@ class LocationsController extends Controller
     public function index(Request $request)
     {
         if ($request->is('api/*')) {
-            $locations = Location::select('id', 'name', 'address', 'phone')
-                ->with('defaultPhoto')
-                ->orderBy('name')
-                ->paginate(10);
+            // $locations = Location::select('id', 'name', 'address', 'phone')
+            //     ->with('defaultPhoto')
+            //     ->orderBy('name')
+            //     ->paginate(10);
+            $locations = new LocationCollection(
+                Location::select('id', 'name', 'address', 'phone')
+                    ->with('defaultPhoto')
+                    ->orderBy('name')
+                    ->paginate(10)
+            );
             return $locations;
         }
     }
