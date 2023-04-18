@@ -34,14 +34,13 @@ class Location extends Model
 
     /**
      * Returns entity which is default one, otherwise the first one if there are no default
-     *
-     * @return HasOne
      */
     public function defaultPhoto(): HasOne
     {
         $photoQ = $this->hasOne(Photo::class)
             ->orderBy('is_default', 'desc')
             ->orderBy('id', 'asc');
+
         return $photoQ;
     }
 

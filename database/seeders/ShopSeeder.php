@@ -24,21 +24,21 @@ class ShopSeeder extends Seeder
             ->count(20)
             ->has(
                 Location::factory()
-                    ->state(function(array $attributes, Shop $shop) {
+                    ->state(function (array $attributes, Shop $shop) {
                         return ['name' => $shop->name . ' - Main Store'];
                     })
             )
             ->has(
                 Location::factory()
                     ->count(2)
-                    ->state(function(array $attributes, Shop $shop) {
+                    ->state(function (array $attributes, Shop $shop) {
                         $faker = app(Generator::class);
                         return ['name' => $shop->name . ' - ' . $faker->words(2, true)];
                     })
             )
             ->has(
                 Map::factory()
-                ->state(function(array $attributes, Shop $shop) {
+                ->state(function (array $attributes, Shop $shop) {
                     $faker = app(Generator::class);
                     return [
                         'shop_id' => $shop->id,
@@ -48,7 +48,7 @@ class ShopSeeder extends Seeder
             )
             ->has(
                 Tile::factory()
-                ->state(function(array $attributes, Shop $shop) {
+                ->state(function (array $attributes, Shop $shop) {
                     return [
                         'shop_id' => $shop->id
                     ];

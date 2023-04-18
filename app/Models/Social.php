@@ -10,5 +10,4 @@ class Social extends Model
     use HasFactory;
 
     public $timestamps = false;
-
 }

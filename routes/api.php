@@ -3,7 +3,6 @@
 use App\Http\Controllers\LocationsController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\TileController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
