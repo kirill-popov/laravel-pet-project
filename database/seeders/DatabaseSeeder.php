@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             PrefectureSeeder::class,
-            ShopSeeder::class
+            ShopSeeder::class,
+            RoleSeeder::class
         ]);
     }
 }
