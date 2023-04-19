@@ -4,8 +4,10 @@ namespace Database\Seeders;
 
 use App\Models\Location;
 use App\Models\Map;
+use App\Models\Role;
 use App\Models\Shop;
 use App\Models\Tile;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 use Faker\Generator;
@@ -22,6 +24,12 @@ class ShopSeeder extends Seeder
         Log::debug('ShopSeeder');
         Shop::factory()
             ->count(20)
+            ->has(
+                User::factory()
+                    ->state(function (array $attributes) {
+                        return ['role_id' => Role::all()->where('role', '=', 'owner')->first()->id];
+                    })
+            )
             ->has(
                 Location::factory()
                     ->state(function (array $attributes, Shop $shop) {
