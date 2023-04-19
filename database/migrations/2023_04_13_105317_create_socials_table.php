@@ -15,7 +15,7 @@ class CreateSocialsTable extends Migration
     {
         Schema::create('socials', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('location_id')->constrained()->cascadeOnDelete();
+            $table->unsignedBigInteger('location_id');
             $table->string('facebook')->nullable();
             $table->string('instagram')->nullable();
             $table->string('twitter')->nullable();
@@ -23,7 +23,7 @@ class CreateSocialsTable extends Migration
             $table->string('tiktok')->nullable();
             $table->string('youtube')->nullable();
 
-            $table->index('location_id');
+            $table->foreign('location_id')->references('id')->on('locations')->cascadeOnDelete();
         });
     }
 
