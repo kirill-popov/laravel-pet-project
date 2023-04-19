@@ -15,13 +15,13 @@ class CreateLocationsTable extends Migration
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('shop_id')->constrained()->cascadeOnDelete();
+            $table->unsignedBigInteger('shop_id');
             $table->string('name');
-            $table->unsignedTinyInteger('status')->default(1);
+            $table->boolean('is_enabled')->default(false);
             $table->decimal('latitude', 10, 8);
             $table->decimal('longitude', 11, 8);
             $table->string('zip');
-            $table->foreignId('prefecture_id')->nullable()->constrained()->nullOnDelete();
+            $table->unsignedBigInteger('prefecture_id')->nullable();
             $table->string('address');
             $table->string('address2')->nullable();
             $table->string('phone');
@@ -38,7 +38,8 @@ class CreateLocationsTable extends Migration
             $table->string('description');
             $table->timestamps();
 
-            $table->index('prefecture_id');
+            $table->foreign('shop_id')->references('id')->on('shops')->cascadeOnDelete();
+            $table->foreign('prefecture_id')->references('id')->on('prefectures')->nullOnDelete();
             $table->unique('name', 'unique_name');
             $table->unique('email', 'unique_email');
         });
