@@ -23,7 +23,6 @@ class LocationFactory extends Factory
     {
         return [
             'shop_id' => null,
-            // 'name' => $this->shop()->name . ' - ' . $this->faker->words(3, true),
             'name' => '',
             'is_enabled' => false,
             'latitude' => $this->faker->latitude(),
