@@ -15,11 +15,11 @@ class CreatePhotosTable extends Migration
     {
         Schema::create('photos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('location_id')->constrained()->cascadeOnDelete();
-            $table->unsignedTinyInteger('is_default');
+            $table->unsignedBigInteger('location_id');
+            $table->boolean('is_default')->default(false);
             $table->string('url');
 
-            $table->index('location_id');
+            $table->foreign('location_id')->references('id')->on('locations')->cascadeOnDelete();
             $table->index('is_default');
         });
     }
