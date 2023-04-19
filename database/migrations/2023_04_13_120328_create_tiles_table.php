@@ -15,15 +15,15 @@ class CreateTilesTable extends Migration
     {
         Schema::create('tiles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('shop_id')->constrained()->cascadeOnDelete();
-            $table->string('type', 3); // sm, md, lg, xl
+            $table->unsignedBigInteger('shop_id');
+            $table->char('type', 2); // sm, md, lg, xl
             $table->string('link_to');
             $table->string('title')->nullable();
             $table->string('subtitle')->nullable();
             $table->string('img_url');
-            $table->unsignedTinyInteger('img_only');
+            $table->boolean('img_only')->default(false);
 
-            $table->index('shop_id');
+            $table->foreign('shop_id')->references('id')->on('shops')->cascadeOnDelete();
         });
     }
 
