@@ -17,7 +17,7 @@ class CreatePhotosTable extends Migration
             $table->id();
             $table->foreignId('location_id')->constrained()->cascadeOnDelete();
             $table->unsignedTinyInteger('is_default');
-            $table->string('url', 100);
+            $table->string('url');
 
             $table->index('location_id');
             $table->index('is_default');
@@ -31,10 +31,6 @@ class CreatePhotosTable extends Migration
      */
     public function down()
     {
-        Schema::table('photos', function (Blueprint $table) {
-            $table->dropForeign('photos_location_id_foreign');
-        });
-
         Schema::dropIfExists('photos');
     }
 }

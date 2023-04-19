@@ -16,16 +16,16 @@ class CreateLocationsTable extends Migration
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('shop_id')->constrained()->cascadeOnDelete();
-            $table->string('name', 120);
+            $table->string('name');
             $table->unsignedTinyInteger('status')->default(1);
             $table->decimal('latitude', 10, 8);
             $table->decimal('longitude', 11, 8);
-            $table->string('zip', 20);
+            $table->string('zip');
             $table->foreignId('prefecture_id')->nullable()->constrained()->nullOnDelete();
-            $table->string('address', 100);
-            $table->string('address2', 100)->nullable();
-            $table->string('phone', 20);
-            $table->string('email', 50);
+            $table->string('address');
+            $table->string('address2')->nullable();
+            $table->string('phone');
+            $table->string('email');
             $table->time('business_hours_start');
             $table->time('business_hours_end');
             $table->unsignedTinyInteger('workday_0');
@@ -35,7 +35,7 @@ class CreateLocationsTable extends Migration
             $table->unsignedTinyInteger('workday_4');
             $table->unsignedTinyInteger('workday_5');
             $table->unsignedTinyInteger('workday_6');
-            $table->string('description', 200);
+            $table->string('description');
             $table->timestamps();
 
             $table->index('prefecture_id');
@@ -51,11 +51,6 @@ class CreateLocationsTable extends Migration
      */
     public function down()
     {
-        Schema::table('locations', function (Blueprint $table) {
-            $table->dropForeign('locations_prefecture_id_foreign');
-            $table->dropForeign('locations_shop_id_foreign');
-        });
-
         Schema::dropIfExists('locations');
     }
 }

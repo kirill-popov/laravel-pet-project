@@ -17,10 +17,10 @@ class CreateTilesTable extends Migration
             $table->id();
             $table->foreignId('shop_id')->constrained()->cascadeOnDelete();
             $table->string('type', 3); // sm, md, lg, xl
-            $table->string('link_to', 200);
-            $table->string('title', 100)->nullable();
-            $table->string('subtitle', 300)->nullable();
-            $table->string('img_url', 200);
+            $table->string('link_to');
+            $table->string('title')->nullable();
+            $table->string('subtitle')->nullable();
+            $table->string('img_url');
             $table->unsignedTinyInteger('img_only');
 
             $table->index('shop_id');
@@ -34,10 +34,6 @@ class CreateTilesTable extends Migration
      */
     public function down()
     {
-        Schema::table('tiles', function (Blueprint $table) {
-            $table->dropForeign('tiles_shop_id_foreign');
-        });
-
         Schema::dropIfExists('tiles');
     }
 }
