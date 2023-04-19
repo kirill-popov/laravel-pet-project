@@ -15,7 +15,7 @@ class MapFactory extends Factory
     {
         return [
             'style' => $this->faker->randomElement(['md', 'lg']),
-            'status' => 0
+            'is_enabled' => false
         ];
     }
 }

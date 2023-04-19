@@ -15,12 +15,12 @@ class CreateMapsTable extends Migration
     {
         Schema::create('maps', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('shop_id')->constrained()->cascadeOnDelete();
-            $table->unsignedInteger('default_location_id');
-            $table->unsignedTinyInteger('status');
-            $table->string('style', 2); // md, lg
+            $table->unsignedBigInteger('shop_id');
+            $table->unsignedBigInteger('default_location_id');
+            $table->boolean('is_enabled')->default(false);
+            $table->char('style', 2); // md, lg
 
-            $table->index('shop_id');
+            $table->foreign('shop_id')->references('id')->on('shops')->cascadeOnDelete();
         });
     }
 
