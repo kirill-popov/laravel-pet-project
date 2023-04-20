@@ -27,7 +27,9 @@ class ShopSeeder extends Seeder
             ->has(
                 User::factory()
                     ->state(function (array $attributes) {
-                        return ['role_id' => Role::all()->where('role', '=', 'owner')->first()->id];
+                        return [
+                            'role_id' => Role::all()->where('role', '=', 'owner')->first()->id
+                        ];
                     })
             )
             ->has(
