@@ -2,7 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Controllers\RoleController;
+use App\Models\Role;
+use App\Repositories\Interfaces\RoleRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
@@ -24,15 +25,17 @@ class UserCreate extends Command
      */
     protected $description = 'Create user';
     protected $userRepository;
+    protected $roleRepository;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(UserRepositoryInterface $userRepository)
+    public function __construct(RoleRepositoryInterface $roleRepository, UserRepositoryInterface $userRepository)
     {
         parent::__construct();
+        $this->roleRepository = $roleRepository;
         $this->userRepository = $userRepository;
     }
 
@@ -48,7 +51,9 @@ class UserCreate extends Command
         $password = $this->secret('Password (leave empty to generate automatically)');
         $role_choice = $this->choice(
             'Role',
-            RoleController::getAll(),
+            $this->roleRepository->allRoles()->map(function (Role $item, int $key) {
+                return $item->role;
+            })->toArray(),
             'owner'
         );
         $status = $this->choice(
@@ -56,10 +61,10 @@ class UserCreate extends Command
             ['active', 'invited'],
             'active'
         );
-        $shop_id = $this->ask('Shop ID (default null)');
+        $shop_id = $this->ask('Existing Shop ID (default null)');
 
-        $roleObj = RoleController::findByRole($role_choice);
-        if (!is_a($roleObj, 'App\Models\Role')) {
+        $role = $this->roleRepository->findRoleByName($role_choice);
+        if (empty($role->id)) {
             $this->error('Wrong Role selected.');
             return 0;
         }
@@ -74,15 +79,16 @@ class UserCreate extends Command
             'email' => $email_option,
             'password' => Hash::make($password),
             'shop_id' => !is_null($shop_id) ? $shop_id : null,
-            'role_id' => $roleObj->id,
+            'role_id' => $role->id,
             'status' => $status
         ];
 
-        if ($this->userRepository->storeUser($data)) {
-            $this->info('User created.');
-        } else {
+        if (false === $this->userRepository->storeUser($data)) {
             $this->error('User not created.');
+            return 0;
         }
+
+        $this->info('User created.');
         return 0;
     }
 }

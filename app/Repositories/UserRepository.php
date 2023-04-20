@@ -12,7 +12,13 @@ class UserRepository implements UserRepositoryInterface
         return User::all()->paginate(10);
     }
 
-    public function storeUser(array $data): bool
+    /**
+     * Inserts new user and returns
+     *
+     * @param array $data
+     * @return App\Model\User or boolean
+     */
+    public function storeUser(array $data): mixed
     {
         return User::create($data);
     }
