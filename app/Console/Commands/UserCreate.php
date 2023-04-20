@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Http\Controllers\RoleController;
-use App\Models\User;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -23,15 +23,17 @@ class UserCreate extends Command
      * @var string
      */
     protected $description = 'Create user';
+    protected $userRepository;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(UserRepositoryInterface $userRepository)
     {
         parent::__construct();
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -67,15 +69,20 @@ class UserCreate extends Command
             $this->info('Password is: ' . $password);
         }
 
-        $user = new User();
-        $user->name = !empty($user_name) ? $user_name : null;
-        $user->email = $email_option;
-        $user->password = Hash::make($password);
-        $user->shop_id = !is_null($shop_id) ? $shop_id : null;
-        $user->role_id = $roleObj->id;
-        $user->status = $status;
-        $user->save();
-        $this->info('User created.');
+        $data = [
+            'name' => !empty($user_name) ? $user_name : null,
+            'email' => $email_option,
+            'password' => Hash::make($password),
+            'shop_id' => !is_null($shop_id) ? $shop_id : null,
+            'role_id' => $roleObj->id,
+            'status' => $status
+        ];
+
+        if ($this->userRepository->storeUser($data)) {
+            $this->info('User created.');
+        } else {
+            $this->error('User not created.');
+        }
         return 0;
     }
 }
