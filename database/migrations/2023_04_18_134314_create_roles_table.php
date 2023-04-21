@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Role;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,6 +21,16 @@ class CreateRolesTable extends Migration
 
             $table->unique('role');
         });
+
+        Role::factory()
+            ->count(4)
+            ->state(new Sequence(
+                ['role' => 'admin'],
+                ['role' => 'merchant'],
+                ['role' => 'owner'],
+                ['role' => 'staff']
+            ))
+            ->create();
     }
 
     /**
