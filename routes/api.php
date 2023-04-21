@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LocationsController;
 use App\Http\Controllers\MapController;
+use App\Http\Controllers\ShopController;
 use App\Http\Controllers\TileController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::apiResource('shops', ShopController::class);
 
 Route::apiResource('locations', LocationsController::class)->only([
     'index', 'show'

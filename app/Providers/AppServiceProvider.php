@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Repositories\Interfaces\RoleRepositoryInterface;
+use App\Repositories\Interfaces\ShopRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\RoleRepository;
+use App\Repositories\ShopRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind(ShopRepositoryInterface::class, ShopRepository::class);
         $this->app->bind(RoleRepositoryInterface::class, RoleRepository::class);
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
     }
