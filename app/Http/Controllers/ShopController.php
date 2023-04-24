@@ -32,15 +32,7 @@ class ShopController extends Controller
      */
     public function store(Request $request)
     {
-        $name = $request->input('name');
-
-        $request->validate([
-            'name' => 'required|alpha_num|max:30',
-        ]);
-
-        return $this->shopRepository->createShop([
-            'name' => $name
-        ]);
+        return $this->shopRepository->createShop($request->all());
     }
 
     /**

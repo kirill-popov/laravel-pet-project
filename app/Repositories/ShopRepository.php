@@ -20,7 +20,7 @@ class ShopRepository implements ShopRepositoryInterface
     public function createShop(array $data)
     {
         return Shop::create([
-            'name' => $data['name']
+            'name' => $data['shop_name']
         ]);
     }
     public function updateShop(int $id, array $data)
