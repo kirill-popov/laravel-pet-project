@@ -42,6 +42,7 @@ class MerchantRegister extends Command
         $email = $this->ask('Email');
         $password = $this->secret('Password');
         $password_confirmation = $this->secret('Password again');
+
         $responce = Http::withHeaders([
             'Accept' => 'application/json'
         ])->post('http://127.0.0.1:8000/api/signup', [
@@ -52,7 +53,7 @@ class MerchantRegister extends Command
         ]);
         // dd($responce);
 
-        if ($responce->ok()) {
+        if ($responce->created()) {
             $this->info('Registration - success!');
         } else {
             $this->error('Registration failed.');

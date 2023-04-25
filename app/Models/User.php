@@ -51,8 +51,10 @@ class User extends Authenticatable
 
     protected function password(): Attribute
     {
-        return new Attribute(
-            function (string $value) {}, // get
+        return Attribute::make(
+            function (string $value) { // get
+                return null;
+            },
             function (string $value) { // set
                 return Hash::make($value);
             }
