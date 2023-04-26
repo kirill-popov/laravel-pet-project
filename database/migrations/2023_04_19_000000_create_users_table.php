@@ -16,7 +16,6 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('email');
-            $table->string('status')->default('active'); // active, invited
             $table->unsignedBigInteger('role_id')->nullable();
             $table->unsignedBigInteger('shop_id')->nullable();
             $table->timestamp('email_verified_at')->nullable();
@@ -25,7 +24,6 @@ class CreateUsersTable extends Migration
             $table->timestamps();
 
             $table->unique('email');
-            $table->index('status');
             $table->foreign('role_id')->references('id')->on('roles')->nullOnDelete();
             $table->foreign('shop_id')->references('id')->on('shops')->cascadeOnDelete();
         });

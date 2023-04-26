@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InviteController;
 use App\Http\Controllers\LocationsController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\ShopController;
@@ -19,6 +20,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/signup', [SignupController::class, 'signup']);
+
+Route::post('/admin/invite', [InviteController::class, 'inviteAdmin']);
+Route::post('/invite', [InviteController::class, 'inviteUser']);
+Route::post('/accept/{email}/{token}', [InviteController::class, 'accept']);
 
 Route::apiResource('shops', ShopController::class);
 

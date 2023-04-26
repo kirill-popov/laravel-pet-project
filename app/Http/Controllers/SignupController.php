@@ -31,7 +31,6 @@ class SignupController extends Controller
         $shop_res = $this->shopRepository->createShop($fields);
 
         $user_fields = array_merge($fields, [
-            'status' => 'active',
             'role_id' => $this->roleRepository->findRoleByName('merchant')->id,
             'shop_id' => $shop_res->id
         ]);

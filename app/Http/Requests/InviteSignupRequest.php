@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
-class SignupRequest extends FormRequest
+class InviteSignupRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,6 @@ class SignupRequest extends FormRequest
     public function rules()
     {
         return [
-            'shop_name' => 'required|alpha_num|max:30',
             'email' => 'required|email|unique:users,email|max:256',
             'password' => ['required', 'confirmed', Password::min(6)]
         ];
