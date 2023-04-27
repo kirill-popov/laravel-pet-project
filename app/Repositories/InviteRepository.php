@@ -23,9 +23,9 @@ class InviteRepository implements InviteRepositoryInterface
         );
     }
 
-    public function findInvite(string $email, string $token)
+    public function findInvite(int $id, string $token)
     {
-        return Invite::where('email', $email)->where('token', $token)->first();
+        return Invite::where('id', $id)->where('token', $token)->first();
     }
 
     public function destroyInvite($id)

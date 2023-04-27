@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Invite;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
@@ -14,12 +15,14 @@ class UserInviteEmail extends Mailable
     use Queueable;
     use SerializesModels;
 
+    protected $invite;
+
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(Invite $invite)
     {
-        //
+        $this->invite = $invite;
     }
 
     /**
@@ -40,7 +43,13 @@ class UserInviteEmail extends Mailable
     {
         return new Content(
             // view: 'view.name',
-            text: 'emails.invite.admin-text'
+            text: 'emails.invite.user-text',
+            with: [
+                'link' => route('invite.accept', [
+                    'id' => $this->invite->id,
+                    'token' => $this->invite->token,
+                ])
+            ]
         );
     }
 

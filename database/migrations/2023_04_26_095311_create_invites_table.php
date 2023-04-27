@@ -14,11 +14,12 @@ return new class () extends Migration {
             $table->id();
             $table->string('email');
             $table->string('token');
-            $table->string('role_id');
-            $table->string('shop_id')->nullable();
+            $table->unsignedBigInteger('role_id');
+            $table->unsignedBigInteger('shop_id')->nullable();
             $table->timestamps();
 
             $table->unique('email');
+            $table->index(["id", "token"]);
         });
     }
 

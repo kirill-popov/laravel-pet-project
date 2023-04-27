@@ -23,14 +23,16 @@ use Illuminate\Support\Facades\Route;
 Route::post('/signup', [SignupController::class, 'signup']);
 Route::post('/login', [LoginController::class, 'login']);
 
-Route::post('/accept/{email}/{token}', [InviteController::class, 'accept']);
+Route::post('/accept/{id}/{token}', [InviteController::class, 'accept'])
+    ->name('invite.accept');
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout']);
+
+    Route::post('/admin/invite', [InviteController::class, 'inviteAdmin']);
+    Route::post('/invite', [InviteController::class, 'inviteUser']);
 });
 
-Route::post('/admin/invite', [InviteController::class, 'inviteAdmin']);
-Route::post('/invite', [InviteController::class, 'inviteUser']);
 
 Route::apiResource('shops', ShopController::class);
 

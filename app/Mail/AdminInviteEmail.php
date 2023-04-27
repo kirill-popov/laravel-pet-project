@@ -44,7 +44,10 @@ class AdminInviteEmail extends Mailable
             // view: 'view.name',
             text: 'emails.invite.admin-text',
             with: [
-                'token' => $this->invite->token
+                'link' => route('invite.accept', [
+                    'id' => $this->invite->id,
+                    'token' => $this->invite->token,
+                ])
             ]
         );
     }

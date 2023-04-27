@@ -4,17 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\InviteRequest;
 use App\Http\Requests\InviteSignupRequest;
-use App\Http\Requests\SignupRequest;
 use App\Mail\AdminInviteEmail;
 use App\Mail\UserInviteEmail;
 use Illuminate\Support\Str;
 use App\Repositories\Interfaces\InviteRepositoryInterface;
 use App\Repositories\Interfaces\RoleRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Log;
 
 class InviteController extends Controller
 {
@@ -32,7 +29,7 @@ class InviteController extends Controller
         $this->userRepository = $userRepository;
     }
 
-    public function inviteAdmin(InviteRequest $request)
+    public function inviteAdmin(InviteRequest $request): Response
     {
         $admin_role = $this->roleRepository->findRoleByName('admin');
         $invite = $this->inviteRepository->storeOrUpdateInvite([
@@ -42,27 +39,31 @@ class InviteController extends Controller
         ]);
         if ($invite) {
             Mail::to($invite->email)->send(new AdminInviteEmail($invite));
+            return response(['message'=>'Invitation sent.'], 200);
         }
     }
 
-    public function inviteUser(InviteRequest $request)
+    public function inviteUser(InviteRequest $request): Response
     {
+        $shop = $request->user()->shop;
+
         $invite = $this->inviteRepository->storeOrUpdateInvite([
             'email' => $request->input('email'),
-            'token' => Str::uuid(),
+            'token' => Str::uuid()->toString(),
             'role_id' => $request->input('role_id'),
-            // 'shop_id' => null, // redo this
+            'shop_id' => ($shop ? $shop->id : null)
         ]);
+
         if ($invite) {
-            Mail::to($invite->email)->send(new UserInviteEmail());
+            Mail::to($invite->email)->send(new UserInviteEmail($invite));
         }
+
+        return response(['message'=>'Invitation sent.'], 200);
     }
 
-    public function accept(InviteSignupRequest $request, string $email, string $token): Response
+    public function accept(InviteSignupRequest $request, int $id, string $token): Response
     {
-        $fields = $request->all();
-
-        $invite = $this->inviteRepository->findInvite($email, $token);
+        $invite = $this->inviteRepository->findInvite($id, $token);
         if (!$invite) {
             return response(['message'=>'Wrong link or invitation invalid.'], 404);
         }
@@ -74,9 +75,7 @@ class InviteController extends Controller
                 'shop_id' => $invite->shop_id
             ]
         );
-        // dd($data);
         $this->userRepository->storeUser($data);
-
         $this->inviteRepository->destroyInvite($invite->id);
 
         return response(['message'=>'Success'], 200);
