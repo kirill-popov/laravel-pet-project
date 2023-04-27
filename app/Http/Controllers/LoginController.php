@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Repositories\Interfaces\UserRepositoryInterface;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -16,7 +17,7 @@ class LoginController extends Controller
         $this->userRepository = $userRepository;
     }
 
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request): array
     {
         $validated = $request->validated();
         $user = $this->userRepository->findUserByEmail($validated['email']);
@@ -29,5 +30,10 @@ class LoginController extends Controller
         return [
             'token' => $user->createToken($request->device_name)->plainTextToken
         ];
+    }
+
+    public function logout(Request $request): void
+    {
+        $request->user()->currentAccessToken()->delete();
     }
 }
