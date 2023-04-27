@@ -47,7 +47,11 @@ class UserCreate extends Command
     public function handle()
     {
         $email_option = $this->option('email');
-        $user_name = $this->ask('User Name (default null)');
+        if (!empty($email_option)) {
+            $email = $email_option;
+        } else {
+            $email = $this->ask('Email');
+        }
         $password = $this->secret('Password (leave empty to generate automatically)');
         $role_choice = $this->choice(
             'Role',
@@ -55,11 +59,6 @@ class UserCreate extends Command
                 return $item->role;
             })->toArray(),
             'owner'
-        );
-        $status = $this->choice(
-            'Status',
-            ['active', 'invited'],
-            'active'
         );
         $shop_id = $this->ask('Existing Shop ID (default null)');
 
@@ -75,12 +74,10 @@ class UserCreate extends Command
         }
 
         $data = [
-            'name' => !empty($user_name) ? $user_name : null,
-            'email' => $email_option,
-            'password' => Hash::make($password),
+            'email' => $email,
+            'password' => $password,
             'shop_id' => !is_null($shop_id) ? $shop_id : null,
-            'role_id' => $role->id,
-            'status' => $status
+            'role_id' => $role->id
         ];
 
         if (false === $this->userRepository->storeUser($data)) {
