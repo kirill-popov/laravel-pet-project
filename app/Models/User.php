@@ -53,7 +53,7 @@ class User extends Authenticatable
     {
         return Attribute::make(
             function (string $value) { // get
-                return null;
+                return $value;
             },
             function (string $value) { // set
                 return Hash::make($value);

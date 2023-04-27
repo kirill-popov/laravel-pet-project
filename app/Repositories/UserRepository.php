@@ -28,6 +28,11 @@ class UserRepository implements UserRepositoryInterface
         return User::find($id);
     }
 
+    public function findUserByEmail(string $email)
+    {
+        return User::firstWhere('email', $email);
+    }
+
     public function updateUser($data, $id)
     {
         $category = User::where('id', $id)->first();
