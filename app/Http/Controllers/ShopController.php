@@ -45,4 +45,9 @@ class ShopController extends Controller
     {
         return $this->shopRepository->findShop($id);
     }
+
+    public function search(string $name)
+    {
+        return $this->shopRepository->findByName($name);
+    }
 }

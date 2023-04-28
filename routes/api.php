@@ -39,6 +39,7 @@ Route::middleware('auth:sanctum')->group(function () {
     ->only([
         'index', 'show'
     ]);
+    Route::get('shops/search/{name}', [ShopController::class, 'search']);
 });
 
 

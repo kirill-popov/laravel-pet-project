@@ -27,6 +27,13 @@ class ShopRepository implements ShopRepositoryInterface
         return Shop::find($id);
     }
 
+    public function findByName(string $name)
+    {
+        return Shop::where('name', 'like', $name.'%')
+            ->orderBy($this->order_by, $this->order)
+            ->paginate(10);
+    }
+
     public function createShop(array $data)
     {
         return Shop::create([

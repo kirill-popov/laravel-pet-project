@@ -7,5 +7,6 @@ interface ShopRepositoryInterface
     public function setOrder(string $order_by, string $order);
     public function allShops();
     public function findShop(int $id);
+    public function findByName(string $name);
     public function createShop(array $data);
 }
