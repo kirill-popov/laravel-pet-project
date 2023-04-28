@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\InviteRequest;
 use App\Http\Requests\InviteSignupRequest;
+use App\Http\Resources\InviteAutofillResource;
 use App\Mail\AdminInviteEmail;
 use App\Mail\UserInviteEmail;
 use Illuminate\Support\Str;
@@ -59,6 +60,12 @@ class InviteController extends Controller
         }
 
         return response(['message'=>'Invitation sent.'], 200);
+    }
+
+    public function view_prefill_data(int $id, string $token)
+    {
+        $invite = $this->inviteRepository->findInvite($id, $token);
+        return new InviteAutofillResource($invite);
     }
 
     public function accept(InviteSignupRequest $request, int $id, string $token): Response
