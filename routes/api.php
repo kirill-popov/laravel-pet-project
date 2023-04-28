@@ -34,10 +34,15 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/admin/invite', [InviteController::class, 'inviteAdmin']);
     Route::post('/invite', [InviteController::class, 'inviteUser']);
+
+    Route::apiResource('shops', ShopController::class)
+    ->only([
+        'index', 'show'
+    ]);
 });
 
 
-Route::apiResource('shops', ShopController::class);
+
 
 Route::apiResource('locations', LocationsController::class)->only([
     'index', 'show'

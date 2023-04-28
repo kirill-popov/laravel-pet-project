@@ -7,9 +7,19 @@ use App\Repositories\Interfaces\ShopRepositoryInterface;
 
 class ShopRepository implements ShopRepositoryInterface
 {
+    protected $order_by = 'name';
+    protected $order = 'asc';
+
+    public function setOrder(string $order_by, string $order)
+    {
+        $this->order_by = $order_by;
+        $this->order = $order;
+        return $this;
+    }
+
     public function allShops()
     {
-        return Shop::latest()->paginate(10);
+        return Shop::orderBy($this->order_by, $this->order)->paginate(10);
     }
 
     public function findShop(int $id)
@@ -22,14 +32,5 @@ class ShopRepository implements ShopRepositoryInterface
         return Shop::create([
             'name' => $data['shop_name']
         ]);
-    }
-    public function updateShop(int $id, array $data)
-    {
-
-    }
-
-    public function deleteShop(int $id)
-    {
-
     }
 }
