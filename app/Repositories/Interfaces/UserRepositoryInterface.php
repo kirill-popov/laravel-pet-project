@@ -8,6 +8,7 @@ interface UserRepositoryInterface
     public function storeUser(array $data);
     public function findUser($id);
     public function findUserByEmail(string $email);
+    public function getAdmins();
     public function updateUser($data, $id);
     public function destroyUser($id);
 }

@@ -33,6 +33,11 @@ class UserRepository implements UserRepositoryInterface
         return User::firstWhere('email', $email);
     }
 
+    public function getAdmins()
+    {
+        return User::admins()->paginate(10);
+    }
+
     public function updateUser($data, $id)
     {
         $category = User::where('id', $id)->first();

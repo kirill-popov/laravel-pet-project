@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserCollection;
+use App\Repositories\Interfaces\InviteRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -18,4 +20,14 @@ class UserController extends Controller
     {
 
     }
+
+    public function adminsIndex()
+    {
+        return new UserCollection($this->userRepository->getAdmins());
+    }
+
+    // public function adminsInvitedIndex(InviteRepositoryInterface $inviteRepository)
+    // {
+    //     return new UserCollection($inviteRepository->getAdmins());
+    // }
 }

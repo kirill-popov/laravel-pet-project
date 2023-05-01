@@ -7,6 +7,7 @@ use App\Http\Controllers\MapController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SignupController;
 use App\Http\Controllers\TileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,6 +41,9 @@ Route::middleware('auth:sanctum')->group(function () {
         'index', 'show'
     ]);
     Route::get('shops/search/{name}', [ShopController::class, 'search']);
+
+    Route::get('admin/users', [UserController::class, 'adminsIndex']);
+    // Route::get('admin/users/invited', [UserController::class, 'adminsInvitedIndex']);
 });
 
 
