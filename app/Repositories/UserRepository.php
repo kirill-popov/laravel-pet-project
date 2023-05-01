@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Shop;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Models\User;
 
@@ -36,6 +37,11 @@ class UserRepository implements UserRepositoryInterface
     public function getAdmins()
     {
         return User::admins()->paginate(10);
+    }
+
+    public function getShopUsers(Shop $shop)
+    {
+        return User::shopUsers($shop)->paginate(10);
     }
 
     public function updateUser($data, $id)

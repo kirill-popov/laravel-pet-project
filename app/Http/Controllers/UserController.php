@@ -16,9 +16,16 @@ class UserController extends Controller
         $this->userRepository = $userRepository;
     }
 
-    public function store(Request $request)
+    public function index(Request $request)
     {
+        $shop = $request->user()->shop;
+        return new UserCollection($this->userRepository->getShopUsers($shop));
+    }
 
+    public function indexInvited(Request $request, InviteRepositoryInterface $inviteRepository)
+    {
+        $shop = $request->user()->shop;
+        return new UserCollection($inviteRepository->getShopInvitedUsers($shop));
     }
 
     public function adminsIndex()

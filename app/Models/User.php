@@ -78,4 +78,9 @@ class User extends Authenticatable
             $query->admin();
         });
     }
+
+    public function scopeShopUsers(Builder $query, Shop $shop)
+    {
+        $query->where('shop_id', $shop->id);
+    }
 }

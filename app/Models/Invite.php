@@ -29,4 +29,9 @@ class Invite extends Model
             $query->admin();
         });
     }
+
+    public function scopeShopInvites(Builder $query, Shop $shop)
+    {
+        $query->where('shop_id', $shop->id);
+    }
 }

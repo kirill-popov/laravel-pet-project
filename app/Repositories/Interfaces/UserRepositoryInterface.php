@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Interfaces;
 
+use App\Models\Shop;
+
 interface UserRepositoryInterface
 {
     public function allUsers();
@@ -9,6 +11,7 @@ interface UserRepositoryInterface
     public function findUser($id);
     public function findUserByEmail(string $email);
     public function getAdmins();
+    public function getShopUsers(Shop $shop);
     public function updateUser($data, $id);
     public function destroyUser($id);
 }
