@@ -7,6 +7,11 @@ use App\Repositories\Interfaces\InviteRepositoryInterface;
 
 class InviteRepository implements InviteRepositoryInterface
 {
+    public function getAdmins()
+    {
+        return Invite::admins()->paginate(10);
+    }
+
     /**
      * Inserts new user and returns
      *

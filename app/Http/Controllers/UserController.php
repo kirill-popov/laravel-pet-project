@@ -26,8 +26,8 @@ class UserController extends Controller
         return new UserCollection($this->userRepository->getAdmins());
     }
 
-    // public function adminsInvitedIndex(InviteRepositoryInterface $inviteRepository)
-    // {
-    //     return new UserCollection($inviteRepository->getAdmins());
-    // }
+    public function adminsInvitedIndex(InviteRepositoryInterface $inviteRepository)
+    {
+        return new UserCollection($inviteRepository->getAdmins());
+    }
 }

@@ -43,7 +43,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('shops/search/{name}', [ShopController::class, 'search']);
 
     Route::get('admin/users', [UserController::class, 'adminsIndex']);
-    // Route::get('admin/users/invited', [UserController::class, 'adminsInvitedIndex']);
+    Route::get('admin/users/invited', [UserController::class, 'adminsInvitedIndex']);
 });
 
 
