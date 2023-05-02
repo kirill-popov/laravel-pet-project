@@ -4,10 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\LocationCollection;
 use App\Models\Location;
+use App\Repositories\Interfaces\LocationRepositoryInterface;
 use Illuminate\Http\Request;
 
 class LocationsController extends Controller
 {
+    protected $locationRepository;
+
+    public function __construct(LocationRepositoryInterface $locationRepository)
+    {
+        $this->locationRepository = $locationRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,19 +23,11 @@ class LocationsController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->is('api/*')) {
-            // $locations = Location::select('id', 'name', 'address', 'phone')
-            //     ->with('defaultPhoto')
-            //     ->orderBy('name')
-            //     ->paginate(10);
-            $locations = new LocationCollection(
-                Location::select('id', 'name', 'address', 'phone')
-                    ->with('defaultPhoto')
-                    ->orderBy('name')
-                    ->paginate(10)
-            );
-            return $locations;
-        }
+        $shop = $request->user()->shop;
+
+        return new LocationCollection(
+            $this->locationRepository->shopLocations($shop->id)
+        );
     }
 
     /**

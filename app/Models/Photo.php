@@ -12,6 +12,10 @@ class Photo extends Model
 
     public $timestamps = false;
 
+    protected $casts = [
+        'is_default' => 'boolean',
+    ];
+
     public function location(): BelongsTo
     {
         return $this->belongsTo(Location::class);

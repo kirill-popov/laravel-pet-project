@@ -32,18 +32,6 @@ class Location extends Model
         return $this->hasMany(Photo::class);
     }
 
-    /**
-     * Returns entity which is default one, otherwise the first one if there are no default
-     */
-    public function defaultPhoto(): HasOne
-    {
-        $photoQ = $this->hasOne(Photo::class)
-            ->orderBy('is_default', 'desc')
-            ->orderBy('id', 'asc');
-
-        return $photoQ;
-    }
-
     public function map(): HasOne
     {
         return $this->hasOne(Map::class);
