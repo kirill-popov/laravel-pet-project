@@ -59,13 +59,11 @@ class LocationsController extends Controller
      */
     public function show(Request $request, Location $location)
     {
-        if ($request->is('api/*')) {
-            return $location->load([
-                'prefecture:id,title',
-                'photos:location_id,is_default,url',
-                'socials:location_id,facebook,instagram,twitter,line,tiktok,youtube'
-            ]);
-        }
+        return $location->load([
+            'prefecture:id,title',
+            'photos:location_id,is_default,url',
+            'socials:location_id,facebook,instagram,twitter,line,tiktok,youtube'
+        ]);
     }
 
     /**

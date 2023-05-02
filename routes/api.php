@@ -9,6 +9,7 @@ use App\Http\Controllers\SignupController;
 use App\Http\Controllers\TileController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminRole;
+use App\Http\Middleware\UserLocationAccess;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,7 +55,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('locations', LocationsController::class)->only([
         'index', 'show'
-    ]);
+    ])->middleware([UserLocationAccess::class]);
 });
 
 

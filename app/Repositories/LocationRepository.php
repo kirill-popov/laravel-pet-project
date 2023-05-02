@@ -17,6 +17,11 @@ class LocationRepository implements LocationRepositoryInterface
 
     }
 
+    public function viewLocation(int $id)
+    {
+        return Location::find($id);
+    }
+
     public function updateLocation($data, $id)
     {
 
