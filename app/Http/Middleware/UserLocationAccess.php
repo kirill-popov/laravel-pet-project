@@ -20,7 +20,7 @@ class UserLocationAccess
             if ($request->user()->shop->is($location->shop)) {
                 return $next($request);
             } else {
-                return response('', 403);
+                return response(['message'=>'Forbidden.'], 403);
             }
         }
 
