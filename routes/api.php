@@ -8,6 +8,7 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SignupController;
 use App\Http\Controllers\TileController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\AdminRole;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,9 +32,15 @@ Route::post('/accept/{id}/{token}', [InviteController::class, 'accept'])
     ->name('invite.accept');
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::middleware([AdminRole::class])->group(function () {
+        Route::get('admin/users', [UserController::class, 'adminsIndex']);
+        Route::get('admin/users/invited', [UserController::class, 'adminsInvitedIndex']);
+
+        Route::post('admin/invite', [InviteController::class, 'inviteAdmin']);
+    });
+
     Route::post('/logout', [LoginController::class, 'logout']);
 
-    Route::post('/admin/invite', [InviteController::class, 'inviteAdmin']);
     Route::post('/invite', [InviteController::class, 'inviteUser']);
 
     Route::apiResource('shops', ShopController::class)
@@ -41,9 +48,6 @@ Route::middleware('auth:sanctum')->group(function () {
         'index', 'show'
     ]);
     Route::get('shops/search/{name}', [ShopController::class, 'search']);
-
-    Route::get('admin/users', [UserController::class, 'adminsIndex']);
-    Route::get('admin/users/invited', [UserController::class, 'adminsInvitedIndex']);
 
     Route::get('users', [UserController::class, 'index']);
     Route::get('users/invited', [UserController::class, 'indexInvited']);

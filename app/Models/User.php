@@ -83,4 +83,10 @@ class User extends Authenticatable
     {
         $query->where('shop_id', $shop->id);
     }
+
+    public function isAdmin()
+    {
+        return $this->role->role == 'admin';
+    }
+
 }
