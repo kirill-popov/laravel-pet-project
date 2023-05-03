@@ -14,7 +14,7 @@ class LocationRepository implements LocationRepositoryInterface
 
     public function storeLocation(array $data)
     {
-
+        return Location::create($data);
     }
 
     public function viewLocation(int $id)

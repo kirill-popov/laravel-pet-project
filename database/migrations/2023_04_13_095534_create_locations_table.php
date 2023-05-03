@@ -18,30 +18,29 @@ class CreateLocationsTable extends Migration
             $table->unsignedBigInteger('shop_id');
             $table->string('name');
             $table->boolean('is_enabled')->default(false);
-            $table->decimal('latitude', 10, 8);
-            $table->decimal('longitude', 11, 8);
+            $table->decimal('latitude', 10, 8)->nullable();
+            $table->decimal('longitude', 11, 8)->nullable();
             $table->string('zip');
             $table->unsignedBigInteger('prefecture_id')->nullable();
             $table->string('address');
             $table->string('address2')->nullable();
-            $table->string('phone');
-            $table->string('email');
-            $table->time('business_hours_start');
-            $table->time('business_hours_end');
-            $table->unsignedTinyInteger('workday_0');
-            $table->unsignedTinyInteger('workday_1');
-            $table->unsignedTinyInteger('workday_2');
-            $table->unsignedTinyInteger('workday_3');
-            $table->unsignedTinyInteger('workday_4');
-            $table->unsignedTinyInteger('workday_5');
-            $table->unsignedTinyInteger('workday_6');
-            $table->string('description');
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
+            $table->time('business_hours_start')->nullable();
+            $table->time('business_hours_end')->nullable();
+            $table->boolean('workday_mon')->default(false);
+            $table->boolean('workday_tue')->default(false);
+            $table->boolean('workday_wed')->default(false);
+            $table->boolean('workday_thu')->default(false);
+            $table->boolean('workday_fri')->default(false);
+            $table->boolean('workday_sat')->default(false);
+            $table->boolean('workday_sun')->default(false);
+            $table->string('description')->nullable();
             $table->timestamps();
 
             $table->foreign('shop_id')->references('id')->on('shops')->cascadeOnDelete();
             $table->foreign('prefecture_id')->references('id')->on('prefectures')->nullOnDelete();
             $table->unique('name', 'unique_name');
-            $table->unique('email', 'unique_email');
         });
     }
 

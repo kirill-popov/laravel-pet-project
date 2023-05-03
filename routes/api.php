@@ -53,9 +53,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('users', [UserController::class, 'index']);
     Route::get('users/invited', [UserController::class, 'indexInvited']);
 
-    Route::apiResource('locations', LocationsController::class)->only([
-        'index', 'show'
-    ])->middleware([UserLocationAccess::class]);
+    Route::apiResource('locations', LocationsController::class)
+        ->middleware([UserLocationAccess::class]);
 });
 
 

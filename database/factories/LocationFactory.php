@@ -35,13 +35,13 @@ class LocationFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'business_hours_start' => $this->faker->time(),
             'business_hours_end' => $this->faker->time(),
-            'workday_0' => rand(0, 1),
-            'workday_1' => rand(0, 1),
-            'workday_2' => rand(0, 1),
-            'workday_3' => rand(0, 1),
-            'workday_4' => rand(0, 1),
-            'workday_5' => rand(0, 1),
-            'workday_6' => rand(0, 1),
+            'workday_mon' => rand(0, 1),
+            'workday_tue' => rand(0, 1),
+            'workday_wed' => rand(0, 1),
+            'workday_thu' => rand(0, 1),
+            'workday_fri' => rand(0, 1),
+            'workday_sat' => rand(0, 1),
+            'workday_sun' => rand(0, 1),
             'description' => $this->faker->text(150)
         ];
     }

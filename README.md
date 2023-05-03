@@ -17,9 +17,9 @@ To rollback tables:
 ## API
 
 Locations:
-- api/locations/ - list, paginated
-- api/locations/?shop_id={shop_id} - list filtered by shop_id
-- api/locations/{id} - single location details, includes 'socials' and 'photos' relation data
+- GET api/locations/ - list, paginated
+- GET api/locations/{id} - single location details, includes 'shop', 'prefecture', 'socials' and 'photos' relational data
+- POST api/locations/{id} - create location
 
 
 Maps:

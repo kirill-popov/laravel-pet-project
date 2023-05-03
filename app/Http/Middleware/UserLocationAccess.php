@@ -23,7 +23,6 @@ class UserLocationAccess
                 return response(['message'=>'Forbidden.'], 403);
             }
         }
-
         return $next($request);
     }
 }
