@@ -33,7 +33,18 @@ class Location extends Model
         'workday_fri',
         'workday_sat',
         'workday_sun',
-        'description'
+        'description',
+    ];
+
+    protected $casts = [
+        'is_enabled' => 'boolean',
+        'workday_mon' => 'boolean',
+        'workday_tue' => 'boolean',
+        'workday_wed' => 'boolean',
+        'workday_thu' => 'boolean',
+        'workday_fri' => 'boolean',
+        'workday_sat' => 'boolean',
+        'workday_sun' => 'boolean',
     ];
 
     public function prefecture(): BelongsTo

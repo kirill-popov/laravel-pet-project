@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LocationFormRequest;
 use App\Http\Resources\LocationCollection;
+use App\Http\Resources\LocationResource;
 use App\Models\Location;
 use App\Repositories\Interfaces\LocationRepositoryInterface;
 use App\Repositories\Interfaces\SocialsRepositoryInterface;
@@ -60,13 +61,9 @@ class LocationsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, Location $location)
+    public function show(Location $location)
     {
-        return $location->load([
-            'prefecture:id,title',
-            'photos:location_id,is_default,url',
-            'socials:location_id,facebook,instagram,twitter,line,tiktok,youtube'
-        ]);
+        return new LocationResource($this->shopService->viewLocation($location));
     }
 
     /**
