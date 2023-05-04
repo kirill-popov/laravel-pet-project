@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Repositories\Interfaces;
+namespace App\Services\Shop;
 
 use App\Models\Location;
 use App\Models\Shop;
 use Illuminate\Support\Collection;
 
-interface LocationRepositoryInterface
+interface ShopServiceInterface
 {
     public function getShopLocations(Shop $shop): Collection;
     public function storeLocation(array $data): Location;

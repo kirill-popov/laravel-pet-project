@@ -3,32 +3,37 @@
 namespace App\Repositories;
 
 use App\Models\Location;
+use App\Models\Shop;
 use App\Repositories\Interfaces\LocationRepositoryInterface;
+use Illuminate\Support\Collection;
 
 class LocationRepository implements LocationRepositoryInterface
 {
-    public function shopLocations(int $shop_id)
+    public function getShopLocations(Shop $shop): Collection
     {
-        return Location::where('shop_id', '=', $shop_id)->orderBy('name')->paginate();
+        // return Location::where('shop_id', '=', $shop_id)->orderBy('name')->paginate();
+        return $shop->locations;
     }
 
-    public function storeLocation(array $data)
+    public function storeLocation(array $data): Location
     {
-        return Location::create($data);
+        return $loc = Location::create($data);
     }
 
-    public function viewLocation(int $id)
+    public function viewLocation(Location $location): Location
     {
-        return Location::find($id);
+        // return Location::find($id);
+        return $location;
     }
 
-    public function updateLocation($data, $id)
+    public function updateLocation(array $data, int $id): Location
     {
 
     }
 
-    public function destroyLocation($id)
+    public function destroyLocation(Location $location): Location
     {
-
+        $location->delete();
+        return $location;
     }
 }

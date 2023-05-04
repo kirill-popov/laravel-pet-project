@@ -10,4 +10,13 @@ class Social extends Model
     use HasFactory;
 
     public $timestamps = false;
+
+    protected $fillable = [
+        'facebook',
+        'instagram',
+        'twitter',
+        'line',
+        'tiktok',
+        'youtube'
+    ];
 }

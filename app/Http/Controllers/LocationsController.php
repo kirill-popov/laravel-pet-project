@@ -6,15 +6,22 @@ use App\Http\Requests\LocationFormRequest;
 use App\Http\Resources\LocationCollection;
 use App\Models\Location;
 use App\Repositories\Interfaces\LocationRepositoryInterface;
+use App\Repositories\Interfaces\SocialsRepositoryInterface;
+use App\Services\Shop\ShopService;
 use Illuminate\Http\Request;
 
 class LocationsController extends Controller
 {
     protected $locationRepository;
+    protected $socialsRepository;
 
-    public function __construct(LocationRepositoryInterface $locationRepository)
-    {
+    public function __construct(
+        protected readonly ShopService $shopService,
+        LocationRepositoryInterface $locationRepository,
+        SocialsRepositoryInterface $socialsRepository
+    ) {
         $this->locationRepository = $locationRepository;
+        $this->socialsRepository = $socialsRepository;
     }
 
     /**
@@ -27,7 +34,7 @@ class LocationsController extends Controller
         $shop = $request->user()->shop;
 
         return new LocationCollection(
-            $this->locationRepository->shopLocations($shop->id)
+            $this->shopService->getShopLocations($shop)
         );
     }
 
@@ -41,7 +48,10 @@ class LocationsController extends Controller
     {
         $data = $request->validated();
         $data['shop_id'] = $request->user()->shop->id;
-        return $this->locationRepository->storeLocation($data);
+        $location = $this->locationRepository->storeLocation($data);
+        // $location->socials()->save($data);
+        $this->socialsRepository->storeSocials($data, $location);
+        return $location->fresh();
     }
 
     /**
@@ -57,17 +67,6 @@ class LocationsController extends Controller
             'photos:location_id,is_default,url',
             'socials:location_id,facebook,instagram,twitter,line,tiktok,youtube'
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
