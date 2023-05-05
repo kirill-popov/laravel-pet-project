@@ -41,7 +41,13 @@ class LocationFormRequest extends FormRequest
             'workday_fri'   => 'boolean',
             'workday_sat'   => 'boolean',
             'workday_sun'   => 'boolean',
-            'description'   => 'nullable|max:255'
+            'description'   => 'nullable|max:255',
+            'facebook' => 'nullable|max:255',
+            'instagram' => 'nullable|max:255',
+            'twitter' => 'nullable|max:255',
+            'line' => 'nullable|max:255',
+            'tiktok' => 'nullable|max:255',
+            'youtube' => 'nullable|max:255',
         ];
     }
 }

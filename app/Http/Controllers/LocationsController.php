@@ -6,8 +6,6 @@ use App\Http\Requests\LocationFormRequest;
 use App\Http\Resources\LocationCollection;
 use App\Http\Resources\LocationResource;
 use App\Models\Location;
-use App\Repositories\Interfaces\LocationRepositoryInterface;
-use App\Repositories\Interfaces\SocialsRepositoryInterface;
 use App\Services\Shop\ShopService;
 use Illuminate\Http\Request;
 
@@ -18,11 +16,7 @@ class LocationsController extends Controller
 
     public function __construct(
         protected readonly ShopService $shopService,
-        LocationRepositoryInterface $locationRepository,
-        SocialsRepositoryInterface $socialsRepository
     ) {
-        $this->locationRepository = $locationRepository;
-        $this->socialsRepository = $socialsRepository;
     }
 
     /**
@@ -49,10 +43,9 @@ class LocationsController extends Controller
     {
         $data = $request->validated();
         $data['shop_id'] = $request->user()->shop->id;
-        $location = $this->locationRepository->storeLocation($data);
-        // $location->socials()->save($data);
-        $this->socialsRepository->storeSocials($data, $location);
-        return $location->fresh();
+        $location = $this->shopService->storeLocation($data);
+        $this->shopService->storeSocialsToLocation($data, $location);
+        return new LocationResource($location->refresh());
     }
 
     /**

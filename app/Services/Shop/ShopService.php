@@ -4,13 +4,16 @@ namespace App\Services\Shop;
 
 use App\Models\Location;
 use App\Models\Shop;
+use App\Models\Social;
 use App\Repositories\Interfaces\LocationRepositoryInterface;
+use App\Repositories\Interfaces\SocialsRepositoryInterface;
 use Illuminate\Support\Collection;
 
 class ShopService implements ShopServiceInterface
 {
     public function __construct(
-        protected LocationRepositoryInterface $locationRepository,
+        protected readonly LocationRepositoryInterface $locationRepository,
+        protected readonly SocialsRepositoryInterface $socialsRepository,
     ) {
     }
 
@@ -43,4 +46,14 @@ class ShopService implements ShopServiceInterface
         return $this->locationRepository->destroyLocation($location);
     }
 
+
+    public function storeSocialsToLocation(array $data, Location $location): Social
+    {
+        return $this->socialsRepository->storeSocialsToLocation($data, $location);
+    }
+
+    public function updateSocials(array $data, Location $location): Collection
+    {
+
+    }
 }

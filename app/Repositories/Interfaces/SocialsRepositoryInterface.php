@@ -3,9 +3,10 @@
 namespace App\Repositories\Interfaces;
 
 use App\Models\Location;
+use App\Models\Social;
 
 interface SocialsRepositoryInterface
 {
-    public function storeSocials(array $data, Location $location);
+    public function storeSocialsToLocation(array $data, Location $location): Social;
     public function updateSocials(array $data, int $id);
 }

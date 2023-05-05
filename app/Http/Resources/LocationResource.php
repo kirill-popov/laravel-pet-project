@@ -36,7 +36,7 @@ class LocationResource extends JsonResource
             'workday_sat' => $this->workday_sat,
             'workday_sun' => $this->workday_sun,
             'description' => $this->description,
-            'photos'=> new PhotosListCollection($this->photos),
+            'photos' => new PhotosListCollection($this->photos),
         ];
     }
 }

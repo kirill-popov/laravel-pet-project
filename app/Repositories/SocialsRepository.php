@@ -8,10 +8,11 @@ use App\Repositories\Interfaces\SocialsRepositoryInterface;
 
 class SocialsRepository implements SocialsRepositoryInterface
 {
-    public function storeSocials(array $data, Location $location)
+    public function storeSocialsToLocation(array $data, Location $location): Social
     {
         $socials = Social::create($data);
-        return $socials->location()->associate($location)->save();
+        $socials->location()->associate($location)->save();
+        return $socials;
     }
 
     public function updateSocials(array $data, int $id)
