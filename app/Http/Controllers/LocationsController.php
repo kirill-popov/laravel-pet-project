@@ -8,7 +8,6 @@ use App\Http\Resources\LocationResource;
 use App\Models\Location;
 use App\Services\Shop\ShopService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class LocationsController extends Controller
 {
@@ -25,7 +24,7 @@ class LocationsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request): LocationCollection
     {
         $shop = $request->user()->shop;
 
@@ -40,7 +39,7 @@ class LocationsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(LocationFormRequest $request)
+    public function store(LocationFormRequest $request): LocationResource
     {
         $data = $request->validated();
 
@@ -57,7 +56,7 @@ class LocationsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Location $location)
+    public function show(Location $location): LocationResource
     {
         return new LocationResource($this->shopService->viewLocation($location));
     }
@@ -77,11 +76,11 @@ class LocationsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Location  $location
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Location $location): LocationResource
     {
-        //
+        return new LocationResource($this->shopService->destroyLocation($location));
     }
 }
