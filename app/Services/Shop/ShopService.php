@@ -6,6 +6,7 @@ use App\Models\Location;
 use App\Models\Shop;
 use App\Models\Social;
 use App\Repositories\Interfaces\LocationRepositoryInterface;
+use App\Repositories\Interfaces\PhotoRepositoryInterface;
 use App\Repositories\Interfaces\SocialsRepositoryInterface;
 use Illuminate\Support\Collection;
 
@@ -14,6 +15,7 @@ class ShopService implements ShopServiceInterface
     public function __construct(
         protected readonly LocationRepositoryInterface $locationRepository,
         protected readonly SocialsRepositoryInterface $socialsRepository,
+        protected readonly PhotoRepositoryInterface $photoRepository
     ) {
     }
 
@@ -55,5 +57,18 @@ class ShopService implements ShopServiceInterface
     public function updateSocials(array $data, Location $location): Collection
     {
 
+    }
+
+    public function storePhotosToLocation(array $data, Location $location): Collection
+    {
+        $photos = [];
+        if (!empty($data)
+        && !empty($data['photos'])
+        && is_array($data['photos'])) {
+            foreach ($data['photos'] as $photo) {
+                $photos[] = $this->photoRepository->storePhotoToLocation($photo, $location);
+            }
+        }
+        return collect($photos);
     }
 }

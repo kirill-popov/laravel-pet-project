@@ -17,12 +17,11 @@ class LocationRepository implements LocationRepositoryInterface
 
     public function storeLocation(array $data): Location
     {
-        return $loc = Location::create($data);
+        return Location::create($data);
     }
 
     public function viewLocation(Location $location): Location
     {
-        // return Location::find($id);
         return $location;
     }
 

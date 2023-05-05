@@ -17,4 +17,6 @@ interface ShopServiceInterface
 
     public function storeSocialsToLocation(array $data, Location $location): Social;
     public function updateSocials(array $data, Location $location): Collection;
+
+    public function storePhotosToLocation(array $data, Location $location): Collection;
 }

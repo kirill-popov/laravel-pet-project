@@ -42,12 +42,15 @@ class LocationFormRequest extends FormRequest
             'workday_sat'   => 'boolean',
             'workday_sun'   => 'boolean',
             'description'   => 'nullable|max:255',
-            'facebook' => 'nullable|max:255',
-            'instagram' => 'nullable|max:255',
-            'twitter' => 'nullable|max:255',
-            'line' => 'nullable|max:255',
-            'tiktok' => 'nullable|max:255',
-            'youtube' => 'nullable|max:255',
+            'facebook'      => 'nullable|max:255',
+            'instagram'     => 'nullable|max:255',
+            'twitter'       => 'nullable|max:255',
+            'line'          => 'nullable|max:255',
+            'tiktok'        => 'nullable|max:255',
+            'youtube'       => 'nullable|max:255',
+            'photos'        => 'nullable',
+            'photos.is_default' => 'boolean',
+            'photos.url'        => 'string|max:255',
         ];
     }
 }

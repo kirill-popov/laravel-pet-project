@@ -12,6 +12,11 @@ class Photo extends Model
 
     public $timestamps = false;
 
+    protected $fillable = [
+        'is_default',
+        'url'
+    ];
+
     protected $casts = [
         'is_default' => 'boolean',
     ];

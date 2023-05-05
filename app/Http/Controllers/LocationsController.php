@@ -8,6 +8,7 @@ use App\Http\Resources\LocationResource;
 use App\Models\Location;
 use App\Services\Shop\ShopService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class LocationsController extends Controller
 {
@@ -42,9 +43,11 @@ class LocationsController extends Controller
     public function store(LocationFormRequest $request)
     {
         $data = $request->validated();
+
         $data['shop_id'] = $request->user()->shop->id;
         $location = $this->shopService->storeLocation($data);
         $this->shopService->storeSocialsToLocation($data, $location);
+        $this->shopService->storePhotosToLocation($data, $location);
         return new LocationResource($location->refresh());
     }
 
