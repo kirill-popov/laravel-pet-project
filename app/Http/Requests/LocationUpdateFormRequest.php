@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LocationFormRequest extends FormRequest
+class LocationUpdateFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,7 @@ class LocationFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'          => 'required|unique:locations,name|max:255',
+            'name'          => 'required|max:255',
             'is_enabled'    => 'boolean',
             'latitude'      => 'nullable|numeric|between:-90,90',
             'longitude'     => 'nullable|numeric|between:-180,180',

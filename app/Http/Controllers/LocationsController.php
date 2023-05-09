@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LocationFormRequest;
+use App\Http\Requests\LocationUpdateFormRequest;
 use App\Http\Resources\LocationCollection;
 use App\Http\Resources\LocationResource;
 use App\Models\Location;
@@ -19,11 +20,6 @@ class LocationsController extends Controller
     ) {
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request): LocationCollection
     {
         $shop = $request->user()->shop;
@@ -33,12 +29,6 @@ class LocationsController extends Controller
         );
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(LocationFormRequest $request): LocationResource
     {
         $data = $request->validated();
@@ -50,35 +40,16 @@ class LocationsController extends Controller
         return new LocationResource($location->refresh());
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(Location $location): LocationResource
     {
         return new LocationResource($this->shopService->viewLocation($location));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(LocationUpdateFormRequest $request, Location $location)
     {
-        //
+        return new LocationResource($this->shopService->updateLocation($request->validated(), $location));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Location  $location
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Location $location): LocationResource
     {
         return new LocationResource($this->shopService->destroyLocation($location));

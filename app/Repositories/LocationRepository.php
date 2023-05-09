@@ -5,10 +5,16 @@ namespace App\Repositories;
 use App\Models\Location;
 use App\Models\Shop;
 use App\Repositories\Interfaces\LocationRepositoryInterface;
+use App\Repositories\Interfaces\SocialsRepositoryInterface;
 use Illuminate\Support\Collection;
 
 class LocationRepository implements LocationRepositoryInterface
 {
+    public function __construct(
+        protected readonly SocialsRepositoryInterface $socialsRepository,
+    ) {
+    }
+
     public function getShopLocations(Shop $shop): Collection
     {
         // return Location::where('shop_id', '=', $shop_id)->orderBy('name')->paginate();
@@ -25,9 +31,19 @@ class LocationRepository implements LocationRepositoryInterface
         return $location;
     }
 
-    public function updateLocation(array $data, int $id): Location
+    public function updateLocation(array $data, Location $location): Location
     {
+        $location_fillable = $location->getFillable();
 
+        foreach ($location_fillable as $key) {
+            if (isset($data[$key])) {
+                $location->$key = $data[$key];
+            }
+        }
+        $location->save();
+
+        $this->socialsRepository->updateSocials($data, $location->socials);
+        return $location;
     }
 
     public function destroyLocation(Location $location): Location

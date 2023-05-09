@@ -38,9 +38,9 @@ class ShopService implements ShopServiceInterface
         ]);
     }
 
-    public function updateLocation(array $data, int $id): Location
+    public function updateLocation(array $data, Location $location): Location
     {
-        return $this->locationRepository->updateLocation($data, $id);
+        return $this->locationRepository->updateLocation($data, $location);
     }
 
     public function destroyLocation(Location $location)
