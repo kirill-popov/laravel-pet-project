@@ -35,9 +35,8 @@ class LocationsController extends Controller
 
         $data['shop_id'] = $request->user()->shop->id;
         $location = $this->shopService->storeLocation($data);
-        $this->shopService->storeSocialsToLocation($data, $location);
-        $this->shopService->storePhotosToLocation($data, $location);
-        return new LocationResource($location->refresh());
+
+        return new LocationResource($location);
     }
 
     public function show(Location $location): LocationResource

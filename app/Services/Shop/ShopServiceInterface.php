@@ -4,7 +4,6 @@ namespace App\Services\Shop;
 
 use App\Models\Location;
 use App\Models\Shop;
-use App\Models\Social;
 use Illuminate\Support\Collection;
 
 interface ShopServiceInterface
@@ -14,9 +13,4 @@ interface ShopServiceInterface
     public function viewLocation(Location $location): Location;
     public function updateLocation(array $data, Location $location): Location;
     public function destroyLocation(Location $location);
-
-    public function storeSocialsToLocation(array $data, Location $location): Social;
-    public function updateSocials(array $data, Location $location): Collection;
-
-    public function storePhotosToLocation(array $data, Location $location): Collection;
 }

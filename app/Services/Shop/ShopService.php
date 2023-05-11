@@ -5,7 +5,6 @@ namespace App\Services\Shop;
 use App\Models\Location;
 use App\Models\Photo;
 use App\Models\Shop;
-use App\Models\Social;
 use App\Repositories\Interfaces\LocationRepositoryInterface;
 use App\Repositories\Interfaces\PhotoRepositoryInterface;
 use App\Repositories\Interfaces\SocialsRepositoryInterface;
@@ -27,7 +26,17 @@ class ShopService implements ShopServiceInterface
 
     public function storeLocation(array $data): Location
     {
-        return $this->locationRepository->storeLocation($data);
+        $location = $this->locationRepository->storeLocation($data);
+
+        $this->socialsRepository->storeSocialsToLocation($data, $location);
+
+        if (!empty($data['photos'])) {
+            foreach ($data['photos'] as $photo) {
+                $this->photoRepository->storePhotoToLocation($photo, $location);
+            }
+        }
+
+        return $this->locationRepository->refreshLocation($location);
     }
 
     public function viewLocation(Location $location): Location
@@ -81,29 +90,5 @@ class ShopService implements ShopServiceInterface
     public function destroyLocation(Location $location)
     {
         return $this->locationRepository->destroyLocation($location);
-    }
-
-
-    public function storeSocialsToLocation(array $data, Location $location): Social
-    {
-        return $this->socialsRepository->storeSocialsToLocation($data, $location);
-    }
-
-    public function updateSocials(array $data, Location $location): Collection
-    {
-
-    }
-
-    public function storePhotosToLocation(array $data, Location $location): Collection
-    {
-        $photos = [];
-        if (!empty($data)
-        && !empty($data['photos'])
-        && is_array($data['photos'])) {
-            foreach ($data['photos'] as $photo) {
-                $photos[] = $this->photoRepository->storePhotoToLocation($photo, $location);
-            }
-        }
-        return collect($photos);
     }
 }
