@@ -41,16 +41,22 @@ class LocationsController extends Controller
 
     public function show(Location $location): LocationResource
     {
-        return new LocationResource($this->shopService->viewLocation($location));
+        return new LocationResource(
+            $this->shopService->viewLocation($location)
+        );
     }
 
     public function update(LocationUpdateFormRequest $request, Location $location)
     {
-        return new LocationResource($this->shopService->updateLocation($request->validated(), $location));
+        return new LocationResource(
+            $this->shopService->updateLocation($request->validated(), $location)
+        );
     }
 
     public function destroy(Location $location): LocationResource
     {
-        return new LocationResource($this->shopService->destroyLocation($location));
+        return new LocationResource(
+            $this->shopService->destroyLocation($location)
+        );
     }
 }

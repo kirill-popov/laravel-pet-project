@@ -7,17 +7,57 @@ use App\Models\Photo;
 use App\Models\Shop;
 use App\Repositories\Interfaces\LocationRepositoryInterface;
 use App\Repositories\Interfaces\PhotoRepositoryInterface;
+use App\Repositories\Interfaces\ShopRepositoryInterface;
 use App\Repositories\Interfaces\SocialsRepositoryInterface;
+use App\Repositories\ShopRepository;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
 
 class ShopService implements ShopServiceInterface
 {
     public function __construct(
+        protected readonly ShopRepositoryInterface $shopRepository,
         protected readonly LocationRepositoryInterface $locationRepository,
         protected readonly SocialsRepositoryInterface $socialsRepository,
         protected readonly PhotoRepositoryInterface $photoRepository,
     ) {
     }
+
+    public function setShopsOrder(string $order_by, string $order): ShopRepository
+    {
+        return $this->shopRepository->setOrder($order_by, $order);
+    }
+
+    public function allShops(): Collection
+    {
+        return $this->shopRepository->allShops();
+    }
+
+    public function allShopsPaginated(): Paginator
+    {
+        return $this->shopRepository->allShopsPaginated();
+    }
+
+    public function getShop(Shop $shop): Shop
+    {
+        return $this->shopRepository->getShop($shop);
+    }
+
+    public function findShopByName(string $name): Collection
+    {
+        return $this->shopRepository->findByName($name);
+    }
+
+    public function findShopByNamePaginate(string $name, int $count = 10): Paginator
+    {
+        return $this->shopRepository->findByNamePaginate($name, $count);
+    }
+
+    public function createShop(array $data): Shop
+    {
+        return $this->shopRepository->createShop($data);
+    }
+
 
     public function getShopLocations(Shop $shop): Collection
     {

@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\Interfaces\ShopRepositoryInterface;
+use App\Http\Resources\ShopCollection;
+use App\Http\Resources\ShopResource;
+use App\Models\Shop;
+use App\Services\Shop\ShopService;
 use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
-    protected $shopRepository;
-
-    public function __construct(ShopRepositoryInterface $shopRepository)
-    {
-        $this->shopRepository = $shopRepository;
+    public function __construct(
+        protected readonly ShopService $shopService,
+    ) {
     }
 
     /**
@@ -21,7 +22,7 @@ class ShopController extends Controller
      */
     public function index()
     {
-        return $this->shopRepository->setOrder('name', 'asc')->allShops();
+        return $this->shopService->setShopsOrder('name', 'asc')->allShopsPaginated();
     }
 
     /**
@@ -32,7 +33,9 @@ class ShopController extends Controller
      */
     public function store(Request $request)
     {
-        return $this->shopRepository->createShop($request->all());
+        return new ShopResource(
+            $this->shopRepository->createShop($request->all())
+        );
     }
 
     /**
@@ -41,13 +44,17 @@ class ShopController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show(Shop $shop)
     {
-        return $this->shopRepository->findShop($id);
+        return new ShopResource(
+            $this->shopService->getShop($shop)
+        );
     }
 
     public function search(string $name)
     {
-        return $this->shopRepository->findByName($name);
+        return new ShopCollection(
+            $this->shopService->findShopByNamePaginate($name)
+        );
     }
 }
