@@ -3,13 +3,11 @@
 namespace App\Providers;
 
 use App\Repositories\Interfaces\InviteRepositoryInterface;
-use App\Repositories\Interfaces\RoleRepositoryInterface;
-use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\InviteRepository;
-use App\Repositories\RoleRepository;
-use App\Repositories\UserRepository;
 use App\Services\Shop\ShopService;
 use App\Services\Shop\ShopServiceInterface;
+use App\Services\User\UserService;
+use App\Services\User\UserServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,9 +20,8 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(ShopServiceInterface::class, ShopService::class);
+        $this->app->bind(UserServiceInterface::class, UserService::class);
 
-        $this->app->bind(RoleRepositoryInterface::class, RoleRepository::class);
-        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(InviteRepositoryInterface::class, InviteRepository::class);
     }
 

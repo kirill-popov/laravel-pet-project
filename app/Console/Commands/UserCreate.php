@@ -3,8 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Role;
-use App\Repositories\Interfaces\RoleRepositoryInterface;
-use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Services\User\UserService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
@@ -23,19 +22,16 @@ class UserCreate extends Command
      * @var string
      */
     protected $description = 'Create user';
-    protected $userRepository;
-    protected $roleRepository;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(RoleRepositoryInterface $roleRepository, UserRepositoryInterface $userRepository)
-    {
+    public function __construct(
+        protected readonly UserService $userService,
+    ) {
         parent::__construct();
-        $this->roleRepository = $roleRepository;
-        $this->userRepository = $userRepository;
     }
 
     /**
@@ -54,14 +50,14 @@ class UserCreate extends Command
         $password = $this->secret('Password (leave empty to generate automatically)');
         $role_choice = $this->choice(
             'Role',
-            $this->roleRepository->allRoles()->map(function (Role $item, int $key) {
+            $this->userService->allRoles()->map(function (Role $item, int $key) {
                 return $item->role;
             })->toArray(),
             'owner'
         );
         $shop_id = $this->ask('Existing Shop ID (default null)');
 
-        $role = $this->roleRepository->findRoleByName($role_choice);
+        $role = $this->userService->findRoleByName($role_choice);
         if (empty($role->id)) {
             $this->error('Wrong Role selected.');
             return 0;
@@ -79,7 +75,7 @@ class UserCreate extends Command
             'role_id' => $role->id
         ];
 
-        if (false === $this->userRepository->storeUser($data)) {
+        if (false === $this->userService->storeUser($data)) {
             $this->error('User not created.');
             return 0;
         }

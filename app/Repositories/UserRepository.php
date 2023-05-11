@@ -5,10 +5,11 @@ namespace App\Repositories;
 use App\Models\Shop;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Models\User;
+use Illuminate\Support\Collection;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function allUsers()
+    public function allUsers(): Collection
     {
         return User::all()->paginate(10);
     }
@@ -19,42 +20,42 @@ class UserRepository implements UserRepositoryInterface
      * @param array $data
      * @return App\Model\User or boolean
      */
-    public function storeUser(array $data): mixed
+    public function storeUser(array $data): User
     {
         return User::create($data);
     }
 
-    public function findUser($id)
+    public function findUser($id): User
     {
         return User::find($id);
     }
 
-    public function findUserByEmail(string $email)
+    public function findUserByEmail(string $email): User
     {
         return User::firstWhere('email', $email);
     }
 
-    public function getAdmins()
+    public function getAdmins(): Collection
     {
         return User::admins()->paginate(10);
     }
 
-    public function getShopUsers(Shop $shop)
+    public function getShopUsers(Shop $shop): Collection
     {
         return User::shopUsers($shop)->paginate(10);
     }
 
-    public function updateUser($data, $id)
+    public function updateUser($data, $id): User
     {
-        $category = User::where('id', $id)->first();
-        $category->name = $data['name'];
-        $category->slug = $data['slug'];
-        $category->save();
+        $user = User::where('id', $id)->first();
+        $user->save();
+        return $user;
     }
 
-    public function destroyUser($id)
+    public function destroyUser($id): User
     {
-        $category = User::find($id);
-        $category->delete();
+        $user = User::find($id);
+        $user->delete();
+        return $user;
     }
 }

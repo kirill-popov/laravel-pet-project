@@ -4,23 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SignupRequest;
 use App\Models\User;
-use App\Repositories\Interfaces\RoleRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Services\Shop\ShopService;
+use App\Services\User\UserService;
 
 class SignupController extends Controller
 {
     protected $userRepository;
-    protected $roleRepository;
 
     public function __construct(
         protected readonly ShopService $shopService,
+        protected readonly UserService $userService,
         UserRepositoryInterface $userRepository,
-        RoleRepositoryInterface $roleRepository
     ) {
-        $this->shopRepository = $shopRepository;
         $this->userRepository = $userRepository;
-        $this->roleRepository = $roleRepository;
     }
 
     public function signup(SignupRequest $request): User
@@ -30,7 +27,7 @@ class SignupController extends Controller
         $shop_res = $this->shopService->createShop($fields);
 
         $user_fields = array_merge($fields, [
-            'role_id' => $this->roleRepository->findRoleByName('merchant')->id,
+            'role_id' => $this->userService->findRoleByName('merchant')->id,
             'shop_id' => $shop_res->id
         ]);
         $user_res = $this->userRepository->storeUser($user_fields);
