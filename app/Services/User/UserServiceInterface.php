@@ -2,6 +2,7 @@
 
 namespace App\Services\User;
 
+use App\Models\Invite;
 use App\Models\Role;
 use App\Models\Shop;
 use App\Models\User;
@@ -21,4 +22,10 @@ interface UserServiceInterface
     public function allRoles(): Collection;
     public function findRoleById(int $id): Role;
     public function findRoleByName(string $name): Role;
+
+    public function getInviteAdmins(): Collection;
+    public function getShopInvitedUsers(Shop $shop): Collection;
+    public function storeOrUpdateInvite(array $data): Invite;
+    public function findInvite(int $id, string $token): Invite;
+    public function destroyInvite(Invite $invite): Invite;
 }

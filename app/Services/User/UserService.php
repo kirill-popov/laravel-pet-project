@@ -2,9 +2,11 @@
 
 namespace App\Services\User;
 
+use App\Models\Invite;
 use App\Models\Role;
 use App\Models\Shop;
 use App\Models\User;
+use App\Repositories\Interfaces\InviteRepositoryInterface;
 use App\Repositories\Interfaces\RoleRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Support\Collection;
@@ -14,6 +16,7 @@ class UserService implements UserServiceInterface
     public function __construct(
         protected readonly UserRepositoryInterface $userRepository,
         protected readonly RoleRepositoryInterface $roleRepository,
+        protected readonly InviteRepositoryInterface $inviteRepository,
     ) {
     }
 
@@ -73,4 +76,29 @@ class UserService implements UserServiceInterface
         return $this->roleRepository->findRoleByName($name);
     }
 
+
+    public function getInviteAdmins(): Collection
+    {
+        return $this->inviteRepository->getAdmins();
+    }
+
+    public function getShopInvitedUsers(Shop $shop): Collection
+    {
+        return $this->inviteRepository->getShopInvitedUsers($shop);
+    }
+
+    public function storeOrUpdateInvite(array $data): Invite
+    {
+        return $this->inviteRepository->storeOrUpdateInvite($data);
+    }
+
+    public function findInvite(int $id, string $token): Invite
+    {
+        return $this->inviteRepository->findInvite($id, $token);
+    }
+
+    public function destroyInvite(Invite $invite): Invite
+    {
+        return $this->inviteRepository->destroyInvite($invite);
+    }
 }

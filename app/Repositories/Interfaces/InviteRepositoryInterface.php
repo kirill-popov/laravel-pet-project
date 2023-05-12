@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
+use App\Models\Invite;
 use App\Models\Shop;
 
 interface InviteRepositoryInterface
@@ -10,5 +11,5 @@ interface InviteRepositoryInterface
     public function getShopInvitedUsers(Shop $shop);
     public function storeOrUpdateInvite(array $data);
     public function findInvite(int $id, string $token);
-    public function destroyInvite($id);
+    public function destroyInvite(Invite $invite): Invite;
 }

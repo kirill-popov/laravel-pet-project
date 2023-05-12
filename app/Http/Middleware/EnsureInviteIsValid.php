@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Repositories\Interfaces\InviteRepositoryInterface;
+use App\Services\User\UserService;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,18 +16,17 @@ class EnsureInviteIsValid
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
 
-    protected $inviteRepository;
-
-    public function __construct(InviteRepositoryInterface $inviteRepository)
+    public function __construct(
+        protected readonly UserService $userService,
+    )
     {
-        $this->inviteRepository = $inviteRepository;
     }
 
     public function handle(Request $request, Closure $next): Response
     {
         $id = $request->id;
         $token = $request->token;
-        $invite = $this->inviteRepository->findInvite($id, $token);
+        $invite = $this->userService->findInvite($id, $token);
         if (!$invite) {
             return response(['message'=>'Invitation not found.'], 404);
         }

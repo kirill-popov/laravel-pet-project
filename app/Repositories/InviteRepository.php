@@ -39,9 +39,9 @@ class InviteRepository implements InviteRepositoryInterface
         return Invite::where('id', $id)->where('token', $token)->first();
     }
 
-    public function destroyInvite($id)
+    public function destroyInvite(Invite $invite): Invite
     {
-        $invite = Invite::find($id);
         $invite->delete();
+        return $invite;
     }
 }
