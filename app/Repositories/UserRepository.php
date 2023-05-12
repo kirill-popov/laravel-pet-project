@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Shop;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Models\User;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
 
 class UserRepository implements UserRepositoryInterface
@@ -37,10 +38,20 @@ class UserRepository implements UserRepositoryInterface
 
     public function getAdmins(): Collection
     {
+        return User::admins()->get();
+    }
+
+    public function getAdminsPaginated(): Paginator
+    {
         return User::admins()->paginate(10);
     }
 
     public function getShopUsers(Shop $shop): Collection
+    {
+        return User::shopUsers($shop)->all();
+    }
+
+    public function getShopUsersPaginated(Shop $shop): Paginator
     {
         return User::shopUsers($shop)->paginate(10);
     }

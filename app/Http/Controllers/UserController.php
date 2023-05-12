@@ -5,21 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Resources\UserCollection;
 use App\Repositories\Interfaces\InviteRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Services\User\UserService;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    private $userRepository;
-
-    public function __construct(UserRepositoryInterface $userRepository)
+    public function __construct(
+        protected readonly UserService $userService
+    )
     {
-        $this->userRepository = $userRepository;
     }
 
     public function index(Request $request)
     {
         $shop = $request->user()->shop;
-        return new UserCollection($this->userRepository->getShopUsers($shop));
+        return new UserCollection($this->userService->getShopUsers($shop));
     }
 
     public function indexInvited(Request $request, InviteRepositoryInterface $inviteRepository)
@@ -30,7 +30,7 @@ class UserController extends Controller
 
     public function adminsIndex()
     {
-        return new UserCollection($this->userRepository->getAdmins());
+        return new UserCollection($this->userService->getAdmins());
     }
 
     public function adminsInvitedIndex(InviteRepositoryInterface $inviteRepository)
