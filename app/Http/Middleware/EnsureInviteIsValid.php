@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Repositories\Interfaces\InviteRepositoryInterface;
 use App\Services\User\UserService;
 use Closure;
 use Illuminate\Http\Request;
@@ -18,8 +17,7 @@ class EnsureInviteIsValid
 
     public function __construct(
         protected readonly UserService $userService,
-    )
-    {
+    ) {
     }
 
     public function handle(Request $request, Closure $next): Response

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\AuthRepository;
+use App\Repositories\Interfaces\AuthRepositoryInterface;
 use App\Repositories\Interfaces\LocationRepositoryInterface;
 use App\Repositories\Interfaces\PhotoRepositoryInterface;
 use App\Repositories\Interfaces\RoleRepositoryInterface;
@@ -29,6 +31,7 @@ class RepositoryProvider extends ServiceProvider
         $this->app->bind(PhotoRepositoryInterface::class, PhotoRepository::class);
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(RoleRepositoryInterface::class, RoleRepository::class);
+        $this->app->bind(AuthRepositoryInterface::class, AuthRepository::class);
     }
 
     /**
