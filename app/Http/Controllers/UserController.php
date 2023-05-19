@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\UserCollection;
 use App\Services\User\UserService;
+use Illuminate\Auth\AuthManager;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -13,7 +14,7 @@ class UserController extends Controller
     ) {
     }
 
-    public function index(Request $request)
+    public function index(Request $request, AuthManager $authManager)
     {
         $shop = $request->user()->shop;
         return new UserCollection($this->userService->getShopUsers($shop));

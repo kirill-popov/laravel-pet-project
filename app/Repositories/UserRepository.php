@@ -48,7 +48,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function getShopUsers(Shop $shop): Collection
     {
-        return User::shopUsers($shop)->all();
+        return User::shopUsers($shop)->get();
     }
 
     public function getShopUsersPaginated(Shop $shop): Paginator
