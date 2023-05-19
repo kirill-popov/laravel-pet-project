@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\UserCollection;
 use App\Services\User\UserService;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -13,16 +12,14 @@ class UserController extends Controller
     ) {
     }
 
-    public function index(Request $request)
+    public function index()
     {
-        $shop = $request->user()->shop;
-        return new UserCollection($this->userService->getShopUsers($shop));
+        return new UserCollection($this->userService->getShopUsers());
     }
 
-    public function indexInvited(Request $request)
+    public function indexInvited()
     {
-        $shop = $request->user()->shop;
-        return new UserCollection($this->userService->getShopInvitedUsers($shop));
+        return new UserCollection($this->userService->getShopInvitedUsers());
     }
 
     public function adminsIndex()

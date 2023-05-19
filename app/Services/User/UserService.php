@@ -4,12 +4,12 @@ namespace App\Services\User;
 
 use App\Models\Invite;
 use App\Models\Role;
-use App\Models\Shop;
 use App\Models\User;
 use App\Repositories\Interfaces\InviteRepositoryInterface;
 use App\Repositories\Interfaces\RoleRepositoryInterface;
 use App\Repositories\Interfaces\ShopRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
+use Illuminate\Auth\AuthManager;
 use Illuminate\Support\Collection;
 
 class UserService implements UserServiceInterface
@@ -19,6 +19,7 @@ class UserService implements UserServiceInterface
         protected readonly RoleRepositoryInterface $roleRepository,
         protected readonly InviteRepositoryInterface $inviteRepository,
         protected readonly ShopRepositoryInterface $shopRepository,
+        protected readonly AuthManager $authManager,
     ) {
     }
 
@@ -59,8 +60,9 @@ class UserService implements UserServiceInterface
         return $this->userRepository->getAdmins();
     }
 
-    public function getShopUsers(Shop $shop): Collection
+    public function getShopUsers(): Collection
     {
+        $shop = $this->authManager->guard()->user()->shop;
         return $this->userRepository->getShopUsers($shop);
     }
 
@@ -96,8 +98,9 @@ class UserService implements UserServiceInterface
         return $this->inviteRepository->getAdmins();
     }
 
-    public function getShopInvitedUsers(Shop $shop): Collection
+    public function getShopInvitedUsers(): Collection
     {
+        $shop = $this->authManager->guard()->user()->shop;
         return $this->inviteRepository->getShopInvitedUsers($shop);
     }
 
