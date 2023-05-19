@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Role;
 use App\Models\Shop;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Models\User;
@@ -68,5 +69,24 @@ class UserRepository implements UserRepositoryInterface
         $user = User::find($id);
         $user->delete();
         return $user;
+    }
+
+    public function setUserRole(User $user, Role $role): User
+    {
+        $user->role_id = $role->id;
+        $user->save();
+        return $user;
+    }
+
+    public function setUserShop(User $user, Shop $shop): User
+    {
+        $user->shop_id = $shop->id;
+        $user->save();
+        return $user;
+    }
+
+    public function refreshUser(User $user): User
+    {
+        return $user->refresh();
     }
 }

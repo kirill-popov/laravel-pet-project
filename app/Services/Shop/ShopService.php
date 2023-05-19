@@ -30,12 +30,12 @@ class ShopService implements ShopServiceInterface
 
     public function allShops(): Collection
     {
-        return $this->shopRepository->allShops();
+        return $this->shopRepository->setOrder('name', 'asc')->allShops();
     }
 
     public function allShopsPaginated(): Paginator
     {
-        return $this->shopRepository->allShopsPaginated();
+        return $this->shopRepository->setOrder('name', 'asc')->allShopsPaginated();
     }
 
     public function getShop(Shop $shop): Shop
