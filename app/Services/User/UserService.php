@@ -8,6 +8,7 @@ use App\Models\Shop;
 use App\Models\User;
 use App\Repositories\Interfaces\InviteRepositoryInterface;
 use App\Repositories\Interfaces\RoleRepositoryInterface;
+use App\Repositories\Interfaces\ShopRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Support\Collection;
 
@@ -17,7 +18,20 @@ class UserService implements UserServiceInterface
         protected readonly UserRepositoryInterface $userRepository,
         protected readonly RoleRepositoryInterface $roleRepository,
         protected readonly InviteRepositoryInterface $inviteRepository,
+        protected readonly ShopRepositoryInterface $shopRepository,
     ) {
+    }
+
+    public function registerUser(array $data): User
+    {
+        $role = $this->roleRepository->findRoleByName('merchant');
+        $shop = $this->shopRepository->createShop($data);
+
+        $user = $this->userRepository->storeUser($data);
+        $this->userRepository->setUserRole($user, $role);
+        $this->userRepository->setUserShop($user, $shop);
+
+        return $this->userRepository->refreshUser($user);
     }
 
     public function allUsers(): Collection
