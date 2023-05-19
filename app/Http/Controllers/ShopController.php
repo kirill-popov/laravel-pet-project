@@ -30,9 +30,7 @@ class ShopController extends Controller
 
     public function show(Shop $shop): ShopResource
     {
-        return new ShopResource(
-            $this->shopService->getShop($shop)
-        );
+        return new ShopResource($shop);
     }
 
     public function search(string $name): ShopCollection
