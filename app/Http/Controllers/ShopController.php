@@ -7,6 +7,7 @@ use App\Http\Resources\ShopCollection;
 use App\Http\Resources\ShopResource;
 use App\Models\Shop;
 use App\Services\Shop\ShopService;
+use Illuminate\Contracts\Pagination\Paginator;
 
 class ShopController extends Controller
 {
@@ -15,9 +16,9 @@ class ShopController extends Controller
     ) {
     }
 
-    public function index()
+    public function index(): Paginator
     {
-        return $this->shopService->setShopsOrder('name', 'asc')->allShopsPaginated();
+        return $this->shopService->allShopsPaginated();
     }
 
     public function store(ShopCreateRequest $request): ShopResource
