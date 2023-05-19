@@ -10,6 +10,7 @@ use Illuminate\Support\Collection;
 
 interface UserServiceInterface
 {
+    public function registerUser(array $data): User;
     public function allUsers(): Collection;
     public function storeUser(array $data): User;
     public function findUser($id): User;
