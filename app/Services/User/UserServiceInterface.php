@@ -4,7 +4,6 @@ namespace App\Services\User;
 
 use App\Models\Invite;
 use App\Models\Role;
-use App\Models\Shop;
 use App\Models\User;
 use Illuminate\Support\Collection;
 
@@ -15,7 +14,7 @@ interface UserServiceInterface
     public function findUser($id): User;
     public function findUserByEmail(string $email): User;
     public function getAdmins(): Collection;
-    public function getShopUsers(Shop $shop): Collection;
+    public function getShopUsers(): Collection;
     public function updateUser($data, $id): User;
     public function destroyUser($id): User;
 
@@ -24,7 +23,7 @@ interface UserServiceInterface
     public function findRoleByName(string $name): Role;
 
     public function getInviteAdmins(): Collection;
-    public function getShopInvitedUsers(Shop $shop): Collection;
+    public function getShopInvitedUsers(): Collection;
     public function storeOrUpdateInvite(array $data): Invite;
     public function findInvite(int $id, string $token): Invite;
     public function destroyInvite(Invite $invite): Invite;
