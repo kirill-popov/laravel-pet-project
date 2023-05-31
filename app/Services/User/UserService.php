@@ -25,7 +25,7 @@ class UserService implements UserServiceInterface
 
     public function registerUser(array $data): User
     {
-        $role = $this->roleRepository->findRoleByName('merchant');
+        $role = $this->roleRepository->findRoleByName(Role::$roleMerchant);
         $shop = $this->shopRepository->createShop($data);
 
         $user = $this->userRepository->storeUser($data);
