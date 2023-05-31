@@ -11,6 +11,11 @@ class Role extends Model
 {
     use HasFactory;
 
+    public static $roleAdmin = 'admin';
+    public static $roleMerchant = 'merchant';
+    public static $roleOwner = 'owner';
+    public static $roleStaff = 'staff';
+
     public $timestamps = false;
 
     public function users(): HasMany
