@@ -55,7 +55,6 @@ class ShopService implements ShopServiceInterface
     }
 
 
-
     public function getCurrentUserShopLocations(): Collection
     {
         $shop = $this->authManager->guard()->user()->shop;
