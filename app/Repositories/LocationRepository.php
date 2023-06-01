@@ -20,11 +20,6 @@ class LocationRepository implements LocationRepositoryInterface
         return Location::create($data);
     }
 
-    public function viewLocation(Location $location): Location
-    {
-        return $location;
-    }
-
     public function updateLocation(array $data, Location $location): Location
     {
         $location_fillable = $location->getFillable();
