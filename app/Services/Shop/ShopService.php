@@ -9,7 +9,6 @@ use App\Repositories\Interfaces\LocationRepositoryInterface;
 use App\Repositories\Interfaces\PhotoRepositoryInterface;
 use App\Repositories\Interfaces\ShopRepositoryInterface;
 use App\Repositories\Interfaces\SocialsRepositoryInterface;
-use App\Repositories\ShopRepository;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
 
@@ -23,19 +22,14 @@ class ShopService implements ShopServiceInterface
     ) {
     }
 
-    public function setShopsOrder(string $order_by, string $order): ShopRepository
+    public function getAllShops(): Collection
     {
-        return $this->shopRepository->setOrder($order_by, $order);
+        return $this->shopRepository->orderByName('asc')->allShops();
     }
 
-    public function allShops(): Collection
+    public function getPaginatedShops(): Paginator
     {
-        return $this->shopRepository->setOrder('name', 'asc')->allShops();
-    }
-
-    public function allShopsPaginated(): Paginator
-    {
-        return $this->shopRepository->setOrder('name', 'asc')->allShopsPaginated();
+        return $this->shopRepository->orderByName('asc')->paginatedShops();
     }
 
     public function getShop(Shop $shop): Shop
@@ -45,12 +39,12 @@ class ShopService implements ShopServiceInterface
 
     public function findShopByName(string $name): Collection
     {
-        return $this->shopRepository->findByName($name);
+        return $this->shopRepository->findByNameAll($name);
     }
 
     public function findShopByNamePaginate(string $name, int $count = 10): Paginator
     {
-        return $this->shopRepository->findByNamePaginate($name, $count);
+        return $this->shopRepository->findByNamePaginated($name, $count);
     }
 
     public function createShop(array $data): Shop
