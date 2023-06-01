@@ -16,6 +16,7 @@ interface ShopServiceInterface
     public function searchShopsByNamePaginated(string $string): Paginator;
     public function createShop(array $data): Shop;
 
+    public function getCurrentUserShopLocations(): Collection;
     public function getShopLocations(Shop $shop): Collection;
     public function storeLocation(array $data): Location;
     public function viewLocation(Location $location): Location;

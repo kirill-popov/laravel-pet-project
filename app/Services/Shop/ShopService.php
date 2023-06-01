@@ -9,6 +9,7 @@ use App\Repositories\Interfaces\LocationRepositoryInterface;
 use App\Repositories\Interfaces\PhotoRepositoryInterface;
 use App\Repositories\Interfaces\ShopRepositoryInterface;
 use App\Repositories\Interfaces\SocialsRepositoryInterface;
+use Illuminate\Auth\AuthManager;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
 
@@ -19,6 +20,7 @@ class ShopService implements ShopServiceInterface
         protected readonly LocationRepositoryInterface $locationRepository,
         protected readonly SocialsRepositoryInterface $socialsRepository,
         protected readonly PhotoRepositoryInterface $photoRepository,
+        protected readonly AuthManager $authManager,
     ) {
     }
 
@@ -52,6 +54,13 @@ class ShopService implements ShopServiceInterface
         return $this->shopRepository->createShop($data);
     }
 
+
+
+    public function getCurrentUserShopLocations(): Collection
+    {
+        $shop = $this->authManager->guard()->user()->shop;
+        return $this->getShopLocations($shop);
+    }
 
     public function getShopLocations(Shop $shop): Collection
     {

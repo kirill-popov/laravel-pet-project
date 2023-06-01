@@ -20,12 +20,10 @@ class LocationsController extends Controller
     ) {
     }
 
-    public function index(Request $request): LocationCollection
+    public function index(): LocationCollection
     {
-        $shop = $request->user()->shop;
-
         return new LocationCollection(
-            $this->shopService->getShopLocations($shop)
+            $this->shopService->getCurrentUserShopLocations()
         );
     }
 
