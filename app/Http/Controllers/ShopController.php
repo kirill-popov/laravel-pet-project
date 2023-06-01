@@ -33,10 +33,10 @@ class ShopController extends Controller
         return new ShopResource($shop);
     }
 
-    public function search(string $name): ShopCollection
+    public function search(string $string): ShopCollection
     {
         return new ShopCollection(
-            $this->shopService->findShopByNamePaginate($name)
+            $this->shopService->searchShopsByNamePaginated($string)
         );
     }
 }

@@ -37,14 +37,14 @@ class ShopService implements ShopServiceInterface
         return $this->shopRepository->getShop($shop);
     }
 
-    public function findShopByName(string $name): Collection
+    public function searchShopsByName(string $name): Collection
     {
-        return $this->shopRepository->findByNameAll($name);
+        return $this->shopRepository->searchByNameAll($name);
     }
 
-    public function findShopByNamePaginate(string $name, int $count = 10): Paginator
+    public function searchShopsByNamePaginated(string $string, int $count = 10): Paginator
     {
-        return $this->shopRepository->findByNamePaginated($name, $count);
+        return $this->shopRepository->searchByNamePaginated($string, $count);
     }
 
     public function createShop(array $data): Shop

@@ -44,16 +44,16 @@ class ShopRepository implements ShopRepositoryInterface
         return $shop;
     }
 
-    public function findByNameAll(string $name): Collection
+    public function searchByNameAll(string $string): Collection
     {
-        return Shop::where('name', 'like', $name.'%')
+        return Shop::where(Shop::$nameField, 'like', $string.'%')
             ->orderBy($this->order_by, $this->order)
             ->get();
     }
 
-    public function findByNamePaginated(string $name, int $count = 10): Paginator
+    public function searchByNamePaginated(string $string, int $count = 10): Paginator
     {
-        return Shop::where('name', 'like', $name.'%')
+        return Shop::where(Shop::$nameField, 'like', $string.'%')
             ->orderBy($this->order_by, $this->order)
             ->paginate($count);
     }
@@ -61,7 +61,7 @@ class ShopRepository implements ShopRepositoryInterface
     public function createShop(array $data): Shop
     {
         return Shop::create([
-            'name' => $data['shop_name']
+            Shop::$nameField => $data['shop_name']
         ]);
     }
 }

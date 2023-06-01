@@ -13,7 +13,7 @@ interface ShopRepositoryInterface
     public function allShops(): Collection;
     public function paginatedShops(int $count = 10): Paginator;
     public function getShop(Shop $shop): Shop;
-    public function findByNameAll(string $name): Collection;
-    public function findByNamePaginated(string $name): Paginator;
+    public function searchByNameAll(string $string): Collection;
+    public function searchByNamePaginated(string $string): Paginator;
     public function createShop(array $data): Shop;
 }
