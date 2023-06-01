@@ -68,6 +68,7 @@ class ShopService implements ShopServiceInterface
 
     public function storeLocation(array $data): Location
     {
+        $data['shop_id'] = $this->authManager->guard()->user()->shop->id;
         $location = $this->locationRepository->storeLocation($data);
 
         $this->socialsRepository->storeSocialsToLocation($data, $location);

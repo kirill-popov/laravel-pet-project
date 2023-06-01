@@ -29,10 +29,8 @@ class LocationsController extends Controller
 
     public function store(LocationFormRequest $request): LocationResource
     {
-        $data = $request->validated();
-
-        $data['shop_id'] = $request->user()->shop->id;
-        $location = $this->shopService->storeLocation($data);
+        $validated = $request->validated();
+        $location = $this->shopService->storeLocation($validated);
 
         return new LocationResource($location);
     }
