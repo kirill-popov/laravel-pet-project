@@ -9,14 +9,24 @@ use Illuminate\Support\Collection;
 
 class ShopRepository implements ShopRepositoryInterface
 {
-    protected $order_by = 'name';
+    protected $order_by = '';
     protected $order = 'asc';
 
-    public function setOrder(string $order_by, string $order): ShopRepository
+    public function __construct()
+    {
+        $this->order_by = Shop::$nameField; // set default sort field
+    }
+
+    private function orderBy(string $order_by, string $order): ShopRepository
     {
         $this->order_by = $order_by;
         $this->order = $order;
         return $this;
+    }
+
+    public function orderByName(string $order): ShopRepository
+    {
+        return $this->orderBy(Shop::$nameField, $order);
     }
 
     public function allShops(): Collection
@@ -24,7 +34,7 @@ class ShopRepository implements ShopRepositoryInterface
         return Shop::orderBy($this->order_by, $this->order)->get();
     }
 
-    public function allShopsPaginated(int $count = 10): Paginator
+    public function paginatedShops(int $count = 10): Paginator
     {
         return Shop::orderBy($this->order_by, $this->order)->paginate($count);
     }
@@ -34,14 +44,14 @@ class ShopRepository implements ShopRepositoryInterface
         return $shop;
     }
 
-    public function findByName(string $name): Collection
+    public function findByNameAll(string $name): Collection
     {
         return Shop::where('name', 'like', $name.'%')
             ->orderBy($this->order_by, $this->order)
             ->get();
     }
 
-    public function findByNamePaginate(string $name, int $count = 10): Paginator
+    public function findByNamePaginated(string $name, int $count = 10): Paginator
     {
         return Shop::where('name', 'like', $name.'%')
             ->orderBy($this->order_by, $this->order)

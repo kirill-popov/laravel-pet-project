@@ -18,7 +18,7 @@ class ShopController extends Controller
 
     public function index(): Paginator
     {
-        return $this->shopService->allShopsPaginated();
+        return $this->shopService->getPaginatedShops();
     }
 
     public function store(ShopCreateRequest $request): ShopResource
