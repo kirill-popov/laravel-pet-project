@@ -38,7 +38,7 @@ class LocationsController extends Controller
     public function show(Location $location): LocationResource
     {
         return new LocationResource(
-            $this->shopService->viewLocation($location)
+            $location
         );
     }
 

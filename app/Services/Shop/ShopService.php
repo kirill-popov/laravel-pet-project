@@ -82,15 +82,6 @@ class ShopService implements ShopServiceInterface
         return $this->locationRepository->refreshLocation($location);
     }
 
-    public function viewLocation(Location $location): Location
-    {
-        return $this->locationRepository->viewLocation($location)->load([
-            'prefecture',
-            'photos',
-            'socials'
-        ]);
-    }
-
     public function updateLocation(array $data, Location $location): Location
     {
         $this->socialsRepository->updateSocials($data, $location->socials);
