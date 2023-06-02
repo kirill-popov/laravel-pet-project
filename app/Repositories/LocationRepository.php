@@ -44,4 +44,11 @@ class LocationRepository implements LocationRepositoryInterface
     {
         return $location->refresh();
     }
+
+    public function associateWithShop(Shop $shop, Location $location): Location
+    {
+        $location->shop()->associate($shop);
+        $location->save();
+        return $location;
+    }
 }
