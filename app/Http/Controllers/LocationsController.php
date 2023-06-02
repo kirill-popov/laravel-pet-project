@@ -8,7 +8,6 @@ use App\Http\Resources\LocationCollection;
 use App\Http\Resources\LocationResource;
 use App\Models\Location;
 use App\Services\Shop\ShopService;
-use Illuminate\Http\Request;
 
 class LocationsController extends Controller
 {

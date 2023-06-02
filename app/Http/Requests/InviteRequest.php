@@ -22,7 +22,9 @@ class InviteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email|max:256'
+            'email' => 'required|email|max:256',
+            'role_id' => 'nullable|numeric',
+            'shop_id' => 'nullable|numeric',
         ];
     }
 }

@@ -25,6 +25,8 @@ interface UserServiceInterface
 
     public function getInviteAdmins(): Collection;
     public function getShopInvitedUsers(): Collection;
+    public function storeOrUpdateAdminInvite(array $data): Invite|false;
+    public function storeOrUpdateUserInvite(array $data): Invite|false;
     public function storeOrUpdateInvite(array $data): Invite;
     public function findInvite(int $id, string $token): Invite;
     public function destroyInvite(Invite $invite): Invite;
