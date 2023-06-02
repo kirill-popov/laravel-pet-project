@@ -11,6 +11,7 @@ use App\Repositories\Interfaces\ShopRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class UserService implements UserServiceInterface
 {
@@ -104,9 +105,34 @@ class UserService implements UserServiceInterface
         return $this->inviteRepository->getShopInvitedUsers($shop);
     }
 
+    public function storeOrUpdateAdminInvite(array $data): Invite|false
+    {
+        $admin_role = $this->findRoleByName(Role::$roleAdmin);
+        if (!$admin_role && !isset($admin_role->id)) {
+            return false;
+        }
+        $data['role_id'] = $admin_role->id;
+        return $this->storeOrUpdateInvite($data);
+    }
+
+    public function storeOrUpdateUserInvite(array $data): Invite|false
+    {
+        $shop = $this->authManager->guard()->user()->shop;
+        if (!$shop && !isset($shop->id)) {
+            return false;
+        }
+        $data['shop_id'] = $shop->id;
+        return $this->storeOrUpdateInvite($data);
+    }
+
     public function storeOrUpdateInvite(array $data): Invite
     {
-        return $this->inviteRepository->storeOrUpdateInvite($data);
+        return $this->inviteRepository->storeOrUpdateInvite([
+            'email' => $data['email'],
+            'token' => Str::uuid(),
+            'role_id' => $data['role_id'],
+            'shop_id' => (isset($data['shop_id']) ? $data['shop_id'] : null)
+        ]);
     }
 
     public function findInvite(int $id, string $token): Invite

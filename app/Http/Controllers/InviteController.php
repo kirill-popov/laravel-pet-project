@@ -7,7 +7,6 @@ use App\Http\Requests\InviteSignupRequest;
 use App\Http\Resources\InviteAutofillResource;
 use App\Mail\AdminInviteEmail;
 use App\Mail\UserInviteEmail;
-use Illuminate\Support\Str;
 use App\Services\User\UserService;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
@@ -21,34 +20,26 @@ class InviteController extends Controller
 
     public function inviteAdmin(InviteRequest $request): Response
     {
-        $admin_role = $this->userService->findRoleByName('admin');
-        $invite = $this->userService->storeOrUpdateInvite([
-            'email' => $request->input('email'),
-            'token' => Str::uuid(),
-            'role_id' => $admin_role->id
-        ]);
+        $invite = $this->userService->storeOrUpdateAdminInvite(
+            $request->validated()
+        );
         if ($invite) {
             Mail::to($invite->email)->send(new AdminInviteEmail($invite));
             return response(['message'=>'Invitation sent.'], 200);
         }
+        return response(['message'=>'Invitation not sent.'], 500);
     }
 
     public function inviteUser(InviteRequest $request): Response
     {
-        $shop = $request->user()->shop;
-
-        $invite = $this->userService->storeOrUpdateInvite([
-            'email' => $request->input('email'),
-            'token' => Str::uuid()->toString(),
-            'role_id' => $request->input('role_id'),
-            'shop_id' => ($shop ? $shop->id : null)
-        ]);
-
+        $invite = $this->userService->storeOrUpdateUserInvite(
+            $request->validated()
+        );
         if ($invite) {
             Mail::to($invite->email)->send(new UserInviteEmail($invite));
+            return response(['message'=>'Invitation sent.'], 200);
         }
-
-        return response(['message'=>'Invitation sent.'], 200);
+        return response(['message'=>'Invitation not sent.'], 500);
     }
 
     public function view_prefill_data(int $id, string $token)
