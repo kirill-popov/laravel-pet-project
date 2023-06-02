@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\InviteRequest;
 use App\Http\Requests\InviteSignupRequest;
 use App\Http\Resources\InviteAutofillResource;
+use App\Http\Resources\InviteCreateFailResource;
+use App\Http\Resources\InviteCreateSuccessResource;
 use App\Mail\AdminInviteEmail;
 use App\Mail\UserInviteEmail;
 use App\Services\User\UserService;
@@ -18,28 +20,28 @@ class InviteController extends Controller
     ) {
     }
 
-    public function inviteAdmin(InviteRequest $request): Response
+    public function inviteAdmin(InviteRequest $request): InviteCreateSuccessResource|InviteCreateFailResource
     {
         $invite = $this->userService->storeOrUpdateAdminInvite(
             $request->validated()
         );
         if ($invite) {
             Mail::to($invite->email)->send(new AdminInviteEmail($invite));
-            return response(['message'=>'Invitation sent.'], 200);
+            return new InviteCreateSuccessResource([]);
         }
-        return response(['message'=>'Invitation not sent.'], 500);
+        return new InviteCreateFailResource([]);
     }
 
-    public function inviteUser(InviteRequest $request): Response
+    public function inviteUser(InviteRequest $request): InviteCreateSuccessResource|InviteCreateFailResource
     {
         $invite = $this->userService->storeOrUpdateUserInvite(
             $request->validated()
         );
         if ($invite) {
             Mail::to($invite->email)->send(new UserInviteEmail($invite));
-            return response(['message'=>'Invitation sent.'], 200);
+            return new InviteCreateSuccessResource([]);
         }
-        return response(['message'=>'Invitation not sent.'], 500);
+        return new InviteCreateFailResource([]);
     }
 
     public function view_prefill_data(int $id, string $token)
