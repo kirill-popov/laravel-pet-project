@@ -13,4 +13,5 @@ interface LocationRepositoryInterface
     public function updateLocation(array $data, Location $location): Location;
     public function destroyLocation(Location $location): Location;
     public function refreshLocation(Location $location): Location;
+    public function associateWithShop(Shop $shop, Location $location): Location;
 }
