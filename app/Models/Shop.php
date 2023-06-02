@@ -17,9 +17,6 @@ class Shop extends Model
 
     protected $hidden = ['created_at', 'updated_at'];
 
-    public static $idField = 'id';
-    public static $nameField = 'name';
-
     public function users(): HasMany
     {
         return $this->hasMany(User::class);

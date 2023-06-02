@@ -14,7 +14,7 @@ class ShopRepository implements ShopRepositoryInterface
 
     public function __construct()
     {
-        $this->order_by = Shop::$nameField; // set default sort field
+        $this->order_by = 'name'; // set default sort field
     }
 
     private function orderBy(string $order_by, string $order): ShopRepository
@@ -26,7 +26,7 @@ class ShopRepository implements ShopRepositoryInterface
 
     public function orderByName(string $order): ShopRepository
     {
-        return $this->orderBy(Shop::$nameField, $order);
+        return $this->orderBy('name', $order);
     }
 
     public function allShops(): Collection
@@ -46,14 +46,14 @@ class ShopRepository implements ShopRepositoryInterface
 
     public function searchByNameAll(string $string): Collection
     {
-        return Shop::where(Shop::$nameField, 'like', $string.'%')
+        return Shop::where('name', 'like', $string.'%')
             ->orderBy($this->order_by, $this->order)
             ->get();
     }
 
     public function searchByNamePaginated(string $string, int $count = 10): Paginator
     {
-        return Shop::where(Shop::$nameField, 'like', $string.'%')
+        return Shop::where('name', 'like', $string.'%')
             ->orderBy($this->order_by, $this->order)
             ->paginate($count);
     }
@@ -61,7 +61,7 @@ class ShopRepository implements ShopRepositoryInterface
     public function createShop(array $data): Shop
     {
         return Shop::create([
-            Shop::$nameField => $data['shop_name']
+            'name' => $data['shop_name']
         ]);
     }
 }
