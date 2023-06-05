@@ -28,6 +28,6 @@ interface UserServiceInterface
     public function storeOrUpdateAdminInvite(array $data): Invite|false;
     public function storeOrUpdateUserInvite(array $data): Invite|false;
     public function storeOrUpdateInvite(array $data): Invite;
-    public function findInvite(int $id, string $token): Invite;
+    public function findInvite(int $id, string $token): Invite|null;
     public function destroyInvite(Invite $invite): Invite;
 }
