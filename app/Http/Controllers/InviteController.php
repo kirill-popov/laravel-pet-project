@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use App\Exceptions\InviteNotSentException;
 use App\Http\Requests\InviteRequest;
 use App\Http\Requests\InviteSignupRequest;
+use App\Http\Resources\AuthTokenResorce;
 use App\Http\Resources\InviteAutofillResource;
 use App\Http\Resources\InviteResource;
 use App\Mail\AdminInviteEmail;
 use App\Mail\UserInviteEmail;
 use App\Services\User\UserService;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
 
 class InviteController extends Controller
@@ -30,9 +30,7 @@ class InviteController extends Controller
             throw new InviteNotSentException();
         }
 
-        return new InviteResource(
-            $invite
-        );
+        return new InviteResource($invite);
     }
 
     public function inviteUser(InviteRequest $request): InviteResource
@@ -44,31 +42,19 @@ class InviteController extends Controller
         if (!$mailSent) {
             throw new InviteNotSentException();
         }
-        return new InviteResource(
-            $invite
-        );
+
+        return new InviteResource($invite);
     }
 
-    public function viewPrefillData(int $id, string $token)
+    public function viewPrefillData(string $token)
     {
-        $invite = $this->userService->findInvite($id, $token);
+        $invite = $this->userService->findInviteByToken($token);
         return new InviteAutofillResource($invite);
     }
 
-    public function accept(InviteSignupRequest $request, int $id, string $token): Response
+    public function accept(InviteSignupRequest $request, string $token): AuthTokenResorce
     {
-        $invite = $this->userService->findInvite($id, $token);
-
-        $data = array_merge(
-            $request->validated(),
-            [
-                'role_id' => $invite->role_id,
-                'shop_id' => $invite->shop_id
-            ]
-        );
-        $this->userService->storeUser($data);
-        $this->userService->destroyInvite($invite);
-
-        return response(['message'=>'Success'], 200);
+        $invite = $this->userService->findInviteByToken($token);
+        return $this->userService->acceptInviteAndLogin($invite, $request->validated());
     }
 }

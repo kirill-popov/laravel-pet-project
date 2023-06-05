@@ -46,7 +46,6 @@ class UserInviteEmail extends Mailable
             text: 'emails.invite.user-text',
             with: [
                 'link' => route('invite.accept', [
-                    'id' => $this->invite->id,
                     'token' => $this->invite->token,
                 ])
             ]

@@ -2,6 +2,7 @@
 
 namespace App\Services\User;
 
+use App\Http\Resources\AuthTokenResorce;
 use App\Models\Invite;
 use App\Models\Role;
 use App\Models\User;
@@ -28,6 +29,7 @@ interface UserServiceInterface
     public function storeOrUpdateAdminInvite(array $data): Invite|false;
     public function storeOrUpdateUserInvite(array $data): Invite|false;
     public function storeOrUpdateInvite(array $data): Invite;
-    public function findInvite(int $id, string $token): Invite|null;
+    public function findInviteByToken(string $token): Invite|null;
+    public function acceptInviteAndLogin(Invite $invite, array $data): AuthTokenResorce;
     public function destroyInvite(Invite $invite): Invite;
 }

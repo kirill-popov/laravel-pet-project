@@ -45,7 +45,6 @@ class AdminInviteEmail extends Mailable
             text: 'emails.invite.admin-text',
             with: [
                 'link' => route('invite.accept', [
-                    'id' => $this->invite->id,
                     'token' => $this->invite->token,
                 ])
             ]

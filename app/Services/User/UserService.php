@@ -2,6 +2,7 @@
 
 namespace App\Services\User;
 
+use App\Http\Resources\AuthTokenResorce;
 use App\Models\Invite;
 use App\Models\Role;
 use App\Models\User;
@@ -9,6 +10,7 @@ use App\Repositories\Interfaces\InviteRepositoryInterface;
 use App\Repositories\Interfaces\RoleRepositoryInterface;
 use App\Repositories\Interfaces\ShopRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Services\Auth\AuthService;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -21,6 +23,7 @@ class UserService implements UserServiceInterface
         protected readonly InviteRepositoryInterface $inviteRepository,
         protected readonly ShopRepositoryInterface $shopRepository,
         protected readonly AuthManager $authManager,
+        protected readonly AuthService $authService,
     ) {
     }
 
@@ -135,9 +138,27 @@ class UserService implements UserServiceInterface
         ]);
     }
 
-    public function findInvite(int $id, string $token): Invite|null
+    public function findInviteByToken(string $token): Invite|null
     {
-        return $this->inviteRepository->findInvite($id, $token);
+        return $this->inviteRepository->findByToken($token);
+    }
+
+    public function acceptInviteAndLogin(Invite $invite, array $data): AuthTokenResorce
+    {
+        $data = array_merge(
+            $data,
+            [
+                'role_id' => $invite->role_id,
+                'shop_id' => $invite->shop_id,
+            ]
+        );
+        if (!isset($data['device_name'])) {
+            $data['device_name'] = env('DEVICE_NAME', 'app');
+        }
+        $this->storeUser($data);
+        $this->destroyInvite($invite);
+
+        return $this->authService->login($data);
     }
 
     public function destroyInvite(Invite $invite): Invite
