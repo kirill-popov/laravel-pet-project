@@ -10,6 +10,6 @@ interface InviteRepositoryInterface
     public function getAdmins();
     public function getShopInvitedUsers(Shop $shop);
     public function storeOrUpdateInvite(array $data);
-    public function findInvite(int $id, string $token);
+    public function findByToken(string $token);
     public function destroyInvite(Invite $invite): Invite;
 }

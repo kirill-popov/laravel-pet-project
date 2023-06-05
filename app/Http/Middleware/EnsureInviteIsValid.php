@@ -23,9 +23,7 @@ class EnsureInviteIsValid
 
     public function handle(Request $request, Closure $next): Response
     {
-        $id = $request->id;
-        $token = $request->token;
-        $invite = $this->userService->findInvite($id, $token);
+        $invite = $this->userService->findInviteByToken($request->token);
         if (!$invite) {
             throw new NotFoundHttpException();
         }

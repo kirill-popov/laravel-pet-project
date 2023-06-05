@@ -26,9 +26,9 @@ use Illuminate\Support\Facades\Route;
 Route::post('/signup', [SignupController::class, 'signup']);
 Route::post('/login', [LoginController::class, 'login']);
 
-Route::get('/accept/{id}/{token}', [InviteController::class, 'viewPrefillData'])
+Route::get('invite/accept/{token}', [InviteController::class, 'viewPrefillData'])
     ->middleware('invite.valid');
-Route::post('/accept/{id}/{token}', [InviteController::class, 'accept'])
+Route::post('invite/accept/{token}', [InviteController::class, 'accept'])
     ->middleware('invite.valid')
     ->name('invite.accept');
 
