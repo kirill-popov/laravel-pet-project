@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\InviteNotSentException;
 use App\Http\Requests\InviteRequest;
 use App\Http\Requests\InviteSignupRequest;
 use App\Http\Resources\InviteAutofillResource;
-use App\Http\Resources\InviteCreateFailResource;
-use App\Http\Resources\InviteCreateSuccessResource;
+use App\Http\Resources\InviteResource;
 use App\Mail\AdminInviteEmail;
 use App\Mail\UserInviteEmail;
 use App\Services\User\UserService;
@@ -20,28 +20,33 @@ class InviteController extends Controller
     ) {
     }
 
-    public function inviteAdmin(InviteRequest $request): InviteCreateSuccessResource|InviteCreateFailResource
+    public function inviteAdmin(InviteRequest $request): InviteResource
     {
         $invite = $this->userService->storeOrUpdateAdminInvite(
             $request->validated()
         );
-        if ($invite) {
-            Mail::to($invite->email)->send(new AdminInviteEmail($invite));
-            return new InviteCreateSuccessResource([]);
+        $mailSent = Mail::to($invite->email)->send(new AdminInviteEmail($invite));
+        if (!$mailSent) {
+            throw new InviteNotSentException();
         }
-        return new InviteCreateFailResource([]);
+
+        return new InviteResource(
+            $invite
+        );
     }
 
-    public function inviteUser(InviteRequest $request): InviteCreateSuccessResource|InviteCreateFailResource
+    public function inviteUser(InviteRequest $request): InviteResource
     {
         $invite = $this->userService->storeOrUpdateUserInvite(
             $request->validated()
         );
-        if ($invite) {
-            Mail::to($invite->email)->send(new UserInviteEmail($invite));
-            return new InviteCreateSuccessResource([]);
+        $mailSent = Mail::to($invite->email)->send(new UserInviteEmail($invite));
+        if (!$mailSent) {
+            throw new InviteNotSentException();
         }
-        return new InviteCreateFailResource([]);
+        return new InviteResource(
+            $invite
+        );
     }
 
     public function view_prefill_data(int $id, string $token)

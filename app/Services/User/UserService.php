@@ -107,7 +107,7 @@ class UserService implements UserServiceInterface
 
     public function storeOrUpdateAdminInvite(array $data): Invite|false
     {
-        $admin_role = $this->findRoleByName(Role::$roleAdmin);
+        $admin_role = $this->findRoleByName(Role::ADMIN);
         if (!$admin_role && !isset($admin_role->id)) {
             return false;
         }
