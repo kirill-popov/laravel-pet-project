@@ -63,7 +63,7 @@ class InviteController extends Controller
         }
 
         $data = array_merge(
-            $request->all(),
+            $request->validated(),
             [
                 'role_id' => $invite->role_id,
                 'shop_id' => $invite->shop_id
