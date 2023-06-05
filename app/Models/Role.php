@@ -11,10 +11,10 @@ class Role extends Model
 {
     use HasFactory;
 
-    const ADMIN = 'admin';
-    const MERCHANT = 'merchant';
-    const OWNER = 'owner';
-    const STAFF = 'staff';
+    public const ADMIN = 'admin';
+    public const MERCHANT = 'merchant';
+    public const OWNER = 'owner';
+    public const STAFF = 'staff';
 
     public $timestamps = false;
 
