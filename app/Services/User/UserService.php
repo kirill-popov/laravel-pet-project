@@ -135,7 +135,7 @@ class UserService implements UserServiceInterface
         ]);
     }
 
-    public function findInvite(int $id, string $token): Invite
+    public function findInvite(int $id, string $token): Invite|null
     {
         return $this->inviteRepository->findInvite($id, $token);
     }

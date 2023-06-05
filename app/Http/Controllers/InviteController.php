@@ -58,9 +58,6 @@ class InviteController extends Controller
     public function accept(InviteSignupRequest $request, int $id, string $token): Response
     {
         $invite = $this->userService->findInvite($id, $token);
-        if (!$invite) {
-            return response(['message'=>'Wrong link or invitation invalid.'], 404);
-        }
 
         $data = array_merge(
             $request->validated(),

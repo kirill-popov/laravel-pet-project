@@ -6,6 +6,7 @@ use App\Services\User\UserService;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class EnsureInviteIsValid
 {
@@ -26,7 +27,7 @@ class EnsureInviteIsValid
         $token = $request->token;
         $invite = $this->userService->findInvite($id, $token);
         if (!$invite) {
-            return response(['message'=>'Invitation not found.'], 404);
+            throw new NotFoundHttpException();
         }
 
         return $next($request);
