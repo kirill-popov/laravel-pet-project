@@ -49,7 +49,7 @@ class InviteController extends Controller
         );
     }
 
-    public function view_prefill_data(int $id, string $token)
+    public function viewPrefillData(int $id, string $token)
     {
         $invite = $this->userService->findInvite($id, $token);
         return new InviteAutofillResource($invite);
