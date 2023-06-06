@@ -97,7 +97,7 @@ class UserService implements UserServiceInterface
     }
 
 
-    public function getInviteAdmins(): Collection
+    public function getInvitedAdmins(): Collection
     {
         return $this->inviteRepository->getAdmins();
     }

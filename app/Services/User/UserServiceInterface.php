@@ -24,7 +24,7 @@ interface UserServiceInterface
     public function findRoleById(int $id): Role;
     public function findRoleByName(string $name): Role;
 
-    public function getInviteAdmins(): Collection;
+    public function getInvitedAdmins(): Collection;
     public function getShopInvitedUsers(): Collection;
     public function storeOrUpdateAdminInvite(array $data): Invite|false;
     public function storeOrUpdateUserInvite(array $data): Invite|false;
