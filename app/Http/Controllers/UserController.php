@@ -29,6 +29,6 @@ class UserController extends Controller
 
     public function adminsInvitedIndex()
     {
-        return new UserCollection($this->userService->getAdmins());
+        return new UserCollection($this->userService->getInvitedAdmins());
     }
 }
