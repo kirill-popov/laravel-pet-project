@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
@@ -43,6 +44,13 @@ class Handler extends ExceptionHandler
             return response(
                 ['message' => 'Data not found.'],
                 404
+            );
+        });
+
+        $this->renderable(function (AccessDeniedHttpException $e, $request) {
+            return response(
+                ['message' => 'Access denied.'],
+                403
             );
         });
     }
