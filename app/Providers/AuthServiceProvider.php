@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Location;
+use App\Policies\LocationPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -13,6 +15,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        Location::class => LocationPolicy::class,
     ];
 
     /**

@@ -17,6 +17,7 @@ class LocationsController extends Controller
     public function __construct(
         protected readonly ShopService $shopService,
     ) {
+        $this->authorizeResource(Location::class, 'location');
     }
 
     public function index(): LocationCollection
