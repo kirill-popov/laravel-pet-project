@@ -153,7 +153,7 @@ class UserService implements UserServiceInterface
             ]
         );
         if (!isset($data['device_name'])) {
-            $data['device_name'] = env('DEVICE_NAME', 'app');
+            $data['device_name'] = config('auth')['device_name']['api'];
         }
         $this->storeUser($data);
         $this->destroyInvite($invite);
