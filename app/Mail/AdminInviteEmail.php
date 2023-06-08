@@ -29,8 +29,9 @@ class AdminInviteEmail extends Mailable
      */
     public function envelope(): Envelope
     {
+        $mailConfig = config('mail');
         return new Envelope(
-            from: new Address('kyrylo.popov@otakoyi.com', 'KP'),
+            from: new Address($mailConfig['from']['address'], $mailConfig['from']['name']),
             subject: 'Admin Invite Email'
         );
     }
