@@ -19,13 +19,7 @@ class PhotoRepository implements PhotoRepositoryInterface
 
     public function updatePhoto(array $data, Photo $photo): Photo
     {
-        $fillable_fields = $photo->getFillable();
-        foreach ($fillable_fields as $key) {
-            if (isset($data[$key])) {
-                $photo->$key = $data[$key];
-            }
-        }
-        $photo->save();
+        $photo->update($data);
 
         return $photo;
     }
