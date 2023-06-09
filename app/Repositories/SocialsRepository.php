@@ -12,20 +12,14 @@ class SocialsRepository implements SocialsRepositoryInterface
     {
         $socials = Social::create($data);
         $socials->location()->associate($location)->save();
+
         return $socials;
     }
 
     public function updateSocials(array $data, Social $social): Social
     {
-        $social_fillable = $social->getFillable();
-        foreach ($social_fillable as $key) {
-            if (isset($data[$key])) {
-                $social->$key = $data[$key];
-            } else {
-                $social->$key = null;
-            }
-        }
-        $social->save();
+        $social->update($data);
+
         return $social;
     }
 }
