@@ -47,11 +47,9 @@ class PhotoRepository implements PhotoRepositoryInterface
 
     public function deletePhotos(Collection $photos): Collection
     {
-        $ids = [];
         foreach ($photos as $photo) {
-            $ids[] = $photo->id;
+            $photo->delete();
         }
-        Photo::destroy($ids);
 
         return $photos;
     }
