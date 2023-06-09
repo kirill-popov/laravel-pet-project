@@ -13,6 +13,7 @@ class PhotoRepository implements PhotoRepositoryInterface
     {
         $photo = Photo::create($data);
         $photo->location()->associate($location)->save();
+
         return $photo;
     }
 
@@ -25,12 +26,14 @@ class PhotoRepository implements PhotoRepositoryInterface
             }
         }
         $photo->save();
+
         return $photo;
     }
 
     public function deletePhoto(Photo $photo): Photo
     {
         $photo->delete();
+
         return $photo;
     }
 
@@ -38,6 +41,7 @@ class PhotoRepository implements PhotoRepositoryInterface
     {
         $photo = Photo::find($id);
         $photo->delete();
+
         return $photo;
     }
 
@@ -48,6 +52,7 @@ class PhotoRepository implements PhotoRepositoryInterface
             $ids[] = $photo->id;
         }
         Photo::destroy($ids);
+
         return $photos;
     }
 
