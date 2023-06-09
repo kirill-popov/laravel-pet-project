@@ -85,7 +85,8 @@ class ShopService implements ShopServiceInterface
 
     public function updateLocation(array $data, Location $location): Location
     {
-        $this->socialsRepository->updateSocials($data, $location->socials);
+        $this->socialsRepository->updateSocials($data['socials'], $location->socials);
+        unset($data['socials']);
 
         $location_photos = $location->photos;
         if (!empty($data['photos'])) {
@@ -114,11 +115,13 @@ class ShopService implements ShopServiceInterface
                     }
                 }
             }
+            unset($data['photos']);
         } else {
             $this->photoRepository->deletePhotos($location_photos);
         }
 
         $location = $this->locationRepository->updateLocation($data, $location);
+
         return $this->locationRepository->refreshLocation($location);
     }
 

@@ -11,7 +11,6 @@ class LocationRepository implements LocationRepositoryInterface
 {
     public function getShopLocations(Shop $shop): Collection
     {
-        // return Location::where('shop_id', '=', $shop_id)->orderBy('name')->paginate();
         return $shop->locations;
     }
 
@@ -22,14 +21,7 @@ class LocationRepository implements LocationRepositoryInterface
 
     public function updateLocation(array $data, Location $location): Location
     {
-        $location_fillable = $location->getFillable();
-
-        foreach ($location_fillable as $key) {
-            if (isset($data[$key])) {
-                $location->$key = $data[$key];
-            }
-        }
-        $location->save();
+        $location->update($data);
 
         return $location;
     }
@@ -37,6 +29,7 @@ class LocationRepository implements LocationRepositoryInterface
     public function destroyLocation(Location $location): Location
     {
         $location->delete();
+
         return $location;
     }
 
@@ -49,6 +42,7 @@ class LocationRepository implements LocationRepositoryInterface
     {
         $location->shop()->associate($shop);
         $location->save();
+
         return $location;
     }
 }
