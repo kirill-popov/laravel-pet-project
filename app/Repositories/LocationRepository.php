@@ -14,6 +14,11 @@ class LocationRepository implements LocationRepositoryInterface
         return $shop->locations;
     }
 
+    public function getLocationById(int $id): Location|null
+    {
+        return Location::find($id);
+    }
+
     public function storeLocation(array $data): Location
     {
         return Location::create($data);

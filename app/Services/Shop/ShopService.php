@@ -2,6 +2,7 @@
 
 namespace App\Services\Shop;
 
+use App\Exceptions\MapExistsException;
 use App\Models\Location;
 use App\Models\Map;
 use App\Models\Photo;
@@ -142,6 +143,20 @@ class ShopService implements ShopServiceInterface
         if (is_null($map)) {
             throw new NotFoundHttpException();
         }
+        return $map;
+    }
+
+    public function createCurrentUserShopMap(array $data): Map
+    {
+        $shop = $this->authManager->guard()->user()->shop;
+        if ($shop->map) {
+            throw new MapExistsException();
+        }
+
+        $map = $this->mapRepository->create($data);
+
+        $map = $this->mapRepository->associateWithShop($map, $shop);
+
         return $map;
     }
 }

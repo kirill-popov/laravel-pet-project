@@ -2,9 +2,11 @@
 
 namespace App\Repositories\Interfaces;
 
-use Illuminate\Database\Eloquent\Collection;
+use App\Models\Map;
+use App\Models\Shop;
 
 interface MapRepositoryInterface
 {
-    public function getAll(): Collection;
+    public function create(array $data): Map;
+    public function associateWithShop(Map $map, Shop $shop): Map;
 }
