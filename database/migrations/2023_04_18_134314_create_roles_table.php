@@ -25,10 +25,10 @@ class CreateRolesTable extends Migration
         Role::factory()
             ->count(4)
             ->state(new Sequence(
-                ['role' => 'admin'],
-                ['role' => 'merchant'],
-                ['role' => 'owner'],
-                ['role' => 'staff']
+                ['role' => Role::ADMIN],
+                ['role' => Role::MERCHANT],
+                ['role' => Role::OWNER],
+                ['role' => Role::STAFF]
             ))
             ->create();
     }
