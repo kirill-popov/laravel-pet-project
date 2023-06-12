@@ -3,15 +3,18 @@
 namespace App\Services\Shop;
 
 use App\Models\Location;
+use App\Models\Map;
 use App\Models\Photo;
 use App\Models\Shop;
 use App\Repositories\Interfaces\LocationRepositoryInterface;
+use App\Repositories\Interfaces\MapRepositoryInterface;
 use App\Repositories\Interfaces\PhotoRepositoryInterface;
 use App\Repositories\Interfaces\ShopRepositoryInterface;
 use App\Repositories\Interfaces\SocialsRepositoryInterface;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ShopService implements ShopServiceInterface
 {
@@ -20,6 +23,7 @@ class ShopService implements ShopServiceInterface
         protected readonly LocationRepositoryInterface $locationRepository,
         protected readonly SocialsRepositoryInterface $socialsRepository,
         protected readonly PhotoRepositoryInterface $photoRepository,
+        protected readonly MapRepositoryInterface $mapRepository,
         protected readonly AuthManager $authManager,
     ) {
     }
@@ -128,5 +132,16 @@ class ShopService implements ShopServiceInterface
     public function destroyLocation(Location $location)
     {
         return $this->locationRepository->destroyLocation($location);
+    }
+
+
+    public function getCurrentUserShopMap(): Map
+    {
+        $shop = $this->authManager->guard()->user()->shop;
+        $map = $shop->map;
+        if (is_null($map)) {
+            throw new NotFoundHttpException();
+        }
+        return $map;
     }
 }

@@ -2,27 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Map;
-use Illuminate\Http\Request;
+use App\Http\Resources\MapResource;
+use App\Services\Shop\ShopService;
 
 class MapController extends Controller
 {
-    public function index(Request $request)
-    {
-        if ($request->is('api/*')) {
-            $maps = Map::select('*')
-            ->with('location')
-            ->paginate(10);
-            return $maps;
-        }
+    public function __construct(
+        protected readonly ShopService $shopService
+    ) {
     }
 
-    public function show(Request $request, Map $map)
+    public function index(): MapResource
     {
-        if ($request->is('api/*')) {
-            return $map->load([
-                'location'
-            ]);
-        }
+        return new MapResource(
+            $this->shopService->getCurrentUserShopMap()
+        );
     }
 }

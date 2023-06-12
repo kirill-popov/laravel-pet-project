@@ -53,14 +53,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('users/invited', [UserController::class, 'indexInvited']);
 
     Route::apiResource('locations', LocationsController::class);
+
+    Route::apiResource('map', MapController::class)->only([
+        'index'
+    ]);
 });
 
 
 
 
-Route::apiResource('maps', MapController::class)->only([
-    'index', 'show'
-]);
 
 Route::apiResource('tiles', TileController::class)->only([
     'index', 'show'

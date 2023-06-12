@@ -3,6 +3,7 @@
 namespace App\Services\Shop;
 
 use App\Models\Location;
+use App\Models\Map;
 use App\Models\Shop;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
@@ -21,4 +22,6 @@ interface ShopServiceInterface
     public function storeLocation(array $data): Location;
     public function updateLocation(array $data, Location $location): Location;
     public function destroyLocation(Location $location);
+
+    public function getCurrentUserShopMap(): Map;
 }
