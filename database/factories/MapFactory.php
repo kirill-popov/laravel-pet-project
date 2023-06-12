@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Map;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class MapFactory extends Factory
@@ -14,7 +15,7 @@ class MapFactory extends Factory
     public function definition()
     {
         return [
-            'style' => $this->faker->randomElement(['md', 'lg']),
+            'style' => $this->faker->randomElement([Map::SIZE_MD, Map::SIZE_LG]),
             'is_enabled' => false
         ];
     }
