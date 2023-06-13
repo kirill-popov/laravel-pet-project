@@ -2,6 +2,7 @@
 
 namespace App\Services\Shop;
 
+use App\Exceptions\LocationNotWithinShopException;
 use App\Exceptions\MapExistsException;
 use App\Models\Location;
 use App\Models\Map;
@@ -153,8 +154,12 @@ class ShopService implements ShopServiceInterface
             throw new MapExistsException();
         }
 
-        $map = $this->mapRepository->create($data);
+        $location = $this->locationRepository->getLocationById($data['location_id']);
+        if ($shop->id != $location->shop->id) {
+            throw new LocationNotWithinShopException();
+        }
 
+        $map = $this->mapRepository->create($data);
         $map = $this->mapRepository->associateWithShop($map, $shop);
 
         return $map;
