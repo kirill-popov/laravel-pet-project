@@ -19,6 +19,13 @@ class Map extends Model
         'is_enabled' => 'boolean',
     ];
 
+    protected $fillable = [
+        'default_location_id',
+        'shop_id',
+        'is_enabled',
+        'style'
+    ];
+
     public function shop(): BelongsTo
     {
         return $this->belongsTo(Shop::class);

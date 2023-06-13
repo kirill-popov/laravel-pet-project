@@ -2,6 +2,8 @@
 
 namespace App\Services\Shop;
 
+use App\Exceptions\LocationNotWithinShopException;
+use App\Exceptions\MapExistsException;
 use App\Models\Location;
 use App\Models\Map;
 use App\Models\Photo;
@@ -143,5 +145,28 @@ class ShopService implements ShopServiceInterface
             throw new NotFoundHttpException();
         }
         return $map;
+    }
+
+    public function createCurrentUserShopMap(array $data): Map
+    {
+        $shop = $this->authManager->guard()->user()->shop;
+        if ($shop->map) {
+            throw new MapExistsException();
+        }
+
+        $location = $this->locationRepository->getLocationById($data['location_id']);
+        if ($shop->id != $location->shop->id) {
+            throw new LocationNotWithinShopException();
+        }
+
+        $map = $this->mapRepository->create($data);
+        $map = $this->mapRepository->associateWithShop($map, $shop);
+
+        return $map;
+    }
+
+    public function updateCurrentUserShopMap(Map $map, array $data): Map
+    {
+        return $this->mapRepository->update($map, $data);
     }
 }

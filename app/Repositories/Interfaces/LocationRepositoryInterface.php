@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 interface LocationRepositoryInterface
 {
     public function getShopLocations(Shop $shop): Collection;
+    public function getLocationById(int $id): Location|null;
     public function storeLocation(array $data): Location;
     public function updateLocation(array $data, Location $location): Location;
     public function destroyLocation(Location $location): Location;
