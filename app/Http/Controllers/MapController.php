@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\MapCreateRequest;
 use App\Http\Resources\MapResource;
+use App\Models\Map;
 use App\Services\Shop\ShopService;
 
 class MapController extends Controller
@@ -29,5 +30,15 @@ class MapController extends Controller
         return new MapResource($map);
     }
 
-    // 'update', 'destroy'
+    public function update(MapCreateRequest $request, Map $map): MapResource
+    {
+        $map = $this->shopService->updateCurrentUserShopMap(
+            $map,
+            $request->validated()
+        );
+
+        return new MapResource($map);
+    }
+
+    //'destroy'
 }

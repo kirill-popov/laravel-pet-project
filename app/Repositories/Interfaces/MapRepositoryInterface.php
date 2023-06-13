@@ -9,4 +9,5 @@ interface MapRepositoryInterface
 {
     public function create(array $data): Map;
     public function associateWithShop(Map $map, Shop $shop): Map;
+    public function update(Map $map, array $data): Map;
 }

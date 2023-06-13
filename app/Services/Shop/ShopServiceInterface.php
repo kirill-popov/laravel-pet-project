@@ -25,4 +25,5 @@ interface ShopServiceInterface
 
     public function getCurrentUserShopMap(): Map;
     public function createCurrentUserShopMap(array $data): Map;
+    public function updateCurrentUserShopMap(Map $map, array $data): Map;
 }

@@ -23,4 +23,11 @@ class MapRepository implements MapRepositoryInterface
 
         return $map;
     }
+
+    public function update(Map $map, array $data): Map
+    {
+        $map->update($data);
+
+        return $map;
+    }
 }

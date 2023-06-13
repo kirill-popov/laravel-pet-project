@@ -159,4 +159,9 @@ class ShopService implements ShopServiceInterface
 
         return $map;
     }
+
+    public function updateCurrentUserShopMap(Map $map, array $data): Map
+    {
+        return $this->mapRepository->update($map, $data);
+    }
 }
