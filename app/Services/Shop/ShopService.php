@@ -155,9 +155,7 @@ class ShopService implements ShopServiceInterface
         }
 
         $location = $this->locationRepository->getLocationById($data['location_id']);
-        if ($shop->id != $location->shop->id) {
-            throw new LocationNotWithinShopException();
-        }
+        $this->validateLocationShop($location, $shop);
 
         $map = $this->mapRepository->create($data);
         $map = $this->mapRepository->associateWithShop($map, $shop);
@@ -167,6 +165,17 @@ class ShopService implements ShopServiceInterface
 
     public function updateCurrentUserShopMap(Map $map, array $data): Map
     {
+        $shop = $this->authManager->guard()->user()->shop;
+        $location = $this->locationRepository->getLocationById($data['location_id']);
+        $this->validateLocationShop($location, $shop);
+
         return $this->mapRepository->update($map, $data);
+    }
+
+    private function validateLocationShop(Location $location, Shop $shop)
+    {
+        if ($location->shop->id != $shop->id) {
+            throw new LocationNotWithinShopException();
+        }
     }
 }
