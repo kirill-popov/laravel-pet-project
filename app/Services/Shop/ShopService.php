@@ -16,6 +16,7 @@ use App\Repositories\Interfaces\MapRepositoryInterface;
 use App\Repositories\Interfaces\PhotoRepositoryInterface;
 use App\Repositories\Interfaces\ShopRepositoryInterface;
 use App\Repositories\Interfaces\SocialsRepositoryInterface;
+use App\Repositories\Interfaces\TileRepositoryInterface;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
@@ -29,6 +30,7 @@ class ShopService implements ShopServiceInterface
         protected readonly SocialsRepositoryInterface $socialsRepository,
         protected readonly PhotoRepositoryInterface $photoRepository,
         protected readonly MapRepositoryInterface $mapRepository,
+        protected readonly TileRepositoryInterface $tileRepository,
         protected readonly AuthManager $authManager,
     ) {
     }
@@ -219,5 +221,15 @@ class ShopService implements ShopServiceInterface
         if ($shop->id != $tile->shop->id) {
             throw new TileNotWithinShopException();
         }
+    }
+
+    public function createShopTile(array $data): Tile
+    {
+        $tile = $this->tileRepository->createTile($data);
+
+        $shop = $this->authManager->guard()->user()->shop;
+        $tile = $this->tileRepository->associateWithShop($tile, $shop);
+
+        return $tile;
     }
 }

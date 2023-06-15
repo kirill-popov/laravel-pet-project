@@ -31,4 +31,5 @@ interface ShopServiceInterface
 
     public function getShopTiles(Shop $shop): Collection;
     public function getShopTile(Tile $tile): Tile;
+    public function createShopTile(array $data): Tile;
 }

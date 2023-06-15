@@ -3,9 +3,10 @@
 namespace App\Repositories\Interfaces;
 
 use App\Models\Shop;
-use Illuminate\Support\Collection;
+use App\Models\Tile;
 
-interface TilesRepositoryInterface
+interface TileRepositoryInterface
 {
-    public function getTiles(Shop $shop): Collection;
+    public function createTile(array $data): Tile;
+    public function associateWithShop(Tile $tile, Shop $shop): Tile;
 }

@@ -15,6 +15,7 @@ class TileFactory extends Factory
     public function definition()
     {
         return [
+            'is_enabled' => rand(0, 1),
             'type' => $this->faker->randomElement([Tile::SIZE_SM, Tile::SIZE_MD, Tile::SIZE_LG, Tile::SIZE_XL]),
             'link_to' => $this->faker->url,
             'title' => $this->faker->words(rand(2, 5), true),

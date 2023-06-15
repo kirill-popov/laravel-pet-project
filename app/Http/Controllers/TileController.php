@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TileCreateRequest;
 use App\Http\Resources\TileCollection;
 use App\Http\Resources\TileResource;
 use App\Models\Tile;
@@ -26,6 +27,13 @@ class TileController extends Controller
 
     public function show(Tile $tile)
     {
+        return new TileResource($tile);
+    }
+
+    public function store(TileCreateRequest $request)
+    {
+        $tile = $this->shopService->createShopTile($request->validated());
+
         return new TileResource($tile);
     }
 }

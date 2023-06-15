@@ -18,7 +18,18 @@ class Tile extends Model
     public const SIZE_XL = 'xl';
 
     protected $casts = [
-        'img_only' => 'boolean'
+        'img_only' => 'boolean',
+        'is_enabled' => 'boolean',
+    ];
+
+    protected $fillable = [
+        'is_enabled',
+        'type',
+        'link_to',
+        'title',
+        'subtitle',
+        'img_url',
+        'img_only',
     ];
 
     public function shop(): BelongsTo

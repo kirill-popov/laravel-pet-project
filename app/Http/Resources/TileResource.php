@@ -16,6 +16,7 @@ class TileResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'is_enabled' => $this->is_enabled,
             'type' => $this->type,
             'img_only' => $this->img_only,
             'link_to' => $this->link_to,
