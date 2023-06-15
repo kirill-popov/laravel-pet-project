@@ -40,5 +40,10 @@ class MapController extends Controller
         return new MapResource($map);
     }
 
-    //'destroy'
+    public function destroy(Map $map): MapResource
+    {
+        $map = $this->shopService->deleteCurrentUserShopMap($map);
+
+        return new MapResource($map);
+    }
 }

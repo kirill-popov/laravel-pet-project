@@ -4,6 +4,7 @@ namespace App\Services\Shop;
 
 use App\Exceptions\LocationNotWithinShopException;
 use App\Exceptions\MapExistsException;
+use App\Exceptions\MapNotAllowedException;
 use App\Models\Location;
 use App\Models\Map;
 use App\Models\Photo;
@@ -155,9 +156,7 @@ class ShopService implements ShopServiceInterface
         }
 
         $location = $this->locationRepository->getLocationById($data['location_id']);
-        if ($shop->id != $location->shop->id) {
-            throw new LocationNotWithinShopException();
-        }
+        $this->validateLocationShop($location, $shop);
 
         $map = $this->mapRepository->create($data);
         $map = $this->mapRepository->associateWithShop($map, $shop);
@@ -167,6 +166,34 @@ class ShopService implements ShopServiceInterface
 
     public function updateCurrentUserShopMap(Map $map, array $data): Map
     {
+        $shop = $this->authManager->guard()->user()->shop;
+        $this->validateMapShop($map, $shop);
+
+        $location = $this->locationRepository->getLocationById($data['location_id']);
+        $this->validateLocationShop($location, $shop);
+
         return $this->mapRepository->update($map, $data);
+    }
+
+    private function validateLocationShop(Location $location, Shop $shop)
+    {
+        if ($location->shop->id != $shop->id) {
+            throw new LocationNotWithinShopException();
+        }
+    }
+
+    public function deleteCurrentUserShopMap(Map $map): Map
+    {
+        $shop = $this->authManager->guard()->user()->shop;
+        $this->validateMapShop($map, $shop);
+
+        return $this->mapRepository->delete($map);
+    }
+
+    private function validateMapShop(Map $map, Shop $shop)
+    {
+        if ($map->shop->id != $shop->id) {
+            throw new MapNotAllowedException();
+        }
     }
 }

@@ -30,4 +30,11 @@ class MapRepository implements MapRepositoryInterface
 
         return $map;
     }
+
+    public function delete(Map $map): Map
+    {
+        $map->delete();
+
+        return $map;
+    }
 }
