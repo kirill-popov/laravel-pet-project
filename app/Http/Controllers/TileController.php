@@ -38,4 +38,11 @@ class TileController extends Controller
 
         return new TileResource($tile);
     }
+
+    public function update(TileCreateRequest $request, Tile $tile)
+    {
+        $tile = $this->shopService->updateShopTile($tile, $request->validated());
+
+        return new TileResource($tile);
+    }
 }

@@ -20,4 +20,11 @@ class TileRepository implements TileRepositoryInterface
 
         return $tile;
     }
+
+    public function updateTile(Tile $tile, array $data): Tile
+    {
+        $tile->update($data);
+
+        return $tile;
+    }
 }

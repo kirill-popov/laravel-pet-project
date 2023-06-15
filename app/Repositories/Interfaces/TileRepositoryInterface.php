@@ -9,4 +9,5 @@ interface TileRepositoryInterface
 {
     public function createTile(array $data): Tile;
     public function associateWithShop(Tile $tile, Shop $shop): Tile;
+    public function updateTile(Tile $tile, array $data): Tile;
 }

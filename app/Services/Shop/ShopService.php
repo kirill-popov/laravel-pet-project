@@ -232,4 +232,14 @@ class ShopService implements ShopServiceInterface
 
         return $tile;
     }
+
+    public function updateShopTile(Tile $tile, array $data): Tile
+    {
+        $shop = $this->authManager->guard()->user()->shop;
+        if ($shop->id != $tile->shop->id) {
+            throw new TileNotWithinShopException();
+        }
+
+        return $this->tileRepository->updateTile($tile, $data);
+    }
 }
