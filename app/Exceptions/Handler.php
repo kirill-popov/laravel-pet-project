@@ -17,6 +17,7 @@ class Handler extends ExceptionHandler
     protected $dontReport = [
         MapExistsException::class,
         LocationNotWithinShopException::class,
+        TileNotWithinShopException::class,
     ];
 
     /**

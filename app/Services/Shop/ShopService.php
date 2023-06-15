@@ -5,15 +5,18 @@ namespace App\Services\Shop;
 use App\Exceptions\LocationNotWithinShopException;
 use App\Exceptions\MapExistsException;
 use App\Exceptions\MapNotAllowedException;
+use App\Exceptions\TileNotWithinShopException;
 use App\Models\Location;
 use App\Models\Map;
 use App\Models\Photo;
 use App\Models\Shop;
+use App\Models\Tile;
 use App\Repositories\Interfaces\LocationRepositoryInterface;
 use App\Repositories\Interfaces\MapRepositoryInterface;
 use App\Repositories\Interfaces\PhotoRepositoryInterface;
 use App\Repositories\Interfaces\ShopRepositoryInterface;
 use App\Repositories\Interfaces\SocialsRepositoryInterface;
+use App\Repositories\Interfaces\TileRepositoryInterface;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
@@ -27,6 +30,7 @@ class ShopService implements ShopServiceInterface
         protected readonly SocialsRepositoryInterface $socialsRepository,
         protected readonly PhotoRepositoryInterface $photoRepository,
         protected readonly MapRepositoryInterface $mapRepository,
+        protected readonly TileRepositoryInterface $tileRepository,
         protected readonly AuthManager $authManager,
     ) {
     }
@@ -195,5 +199,57 @@ class ShopService implements ShopServiceInterface
         if ($map->shop->id != $shop->id) {
             throw new MapNotAllowedException();
         }
+    }
+
+
+
+    public function getShopTiles(Shop $shop): Collection
+    {
+        return $shop->tiles;
+    }
+
+    public function getShopTile(Tile $tile): Tile
+    {
+        $this->validateShopTile($tile);
+
+        return $tile;
+    }
+
+    private function validateShopTile(Tile $tile): void
+    {
+        $shop = $this->authManager->guard()->user()->shop;
+        if ($shop->id != $tile->shop->id) {
+            throw new TileNotWithinShopException();
+        }
+    }
+
+    public function createShopTile(array $data): Tile
+    {
+        $tile = $this->tileRepository->createTile($data);
+
+        $shop = $this->authManager->guard()->user()->shop;
+        $tile = $this->tileRepository->associateWithShop($tile, $shop);
+
+        return $tile;
+    }
+
+    public function updateShopTile(Tile $tile, array $data): Tile
+    {
+        $shop = $this->authManager->guard()->user()->shop;
+        if ($shop->id != $tile->shop->id) {
+            throw new TileNotWithinShopException();
+        }
+
+        return $this->tileRepository->updateTile($tile, $data);
+    }
+
+    public function deleteShopTile(Tile $tile): Tile
+    {
+        $shop = $this->authManager->guard()->user()->shop;
+        if ($shop->id != $tile->shop->id) {
+            throw new TileNotWithinShopException();
+        }
+
+        return $this->tileRepository->deleteTile($tile);
     }
 }
