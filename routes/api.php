@@ -59,6 +59,6 @@ Route::middleware('auth:sanctum')->group(function () {
     ]);
 
     Route::apiResource('tiles', TileController::class)->only([
-        'index'
+        'index', 'show'
     ]);
 });

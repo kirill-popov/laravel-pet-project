@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\TileCollection;
+use App\Http\Resources\TileResource;
 use App\Models\Tile;
-use App\Services\Shop\ShopService;
+use App\Services\Shop\ShopServiceInterface;
 use Illuminate\Auth\AuthManager;
-use Illuminate\Http\Request;
 
 class TileController extends Controller
 {
     public function __construct(
         protected readonly AuthManager $authManager,
-        protected readonly ShopService $shopService,
+        protected readonly ShopServiceInterface $shopService,
     ) {
     }
 
@@ -21,17 +21,11 @@ class TileController extends Controller
         $shop = $this->authManager->guard()->user()->shop;
         $tiles = $this->shopService->getShopTiles($shop);
 
-        return new TileCollection(
-            $tiles
-        );
+        return new TileCollection($tiles);
     }
 
-    public function show(Request $request, Tile $tile)
+    public function show(Tile $tile)
     {
-        if ($request->is('api/*')) {
-            return $tile->load([
-                'shop'
-            ]);
-        }
+        return new TileResource($tile);
     }
 }

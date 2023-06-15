@@ -5,10 +5,12 @@ namespace App\Services\Shop;
 use App\Exceptions\LocationNotWithinShopException;
 use App\Exceptions\MapExistsException;
 use App\Exceptions\MapNotAllowedException;
+use App\Exceptions\TileNotWithinShopException;
 use App\Models\Location;
 use App\Models\Map;
 use App\Models\Photo;
 use App\Models\Shop;
+use App\Models\Tile;
 use App\Repositories\Interfaces\LocationRepositoryInterface;
 use App\Repositories\Interfaces\MapRepositoryInterface;
 use App\Repositories\Interfaces\PhotoRepositoryInterface;
@@ -199,8 +201,23 @@ class ShopService implements ShopServiceInterface
 
 
 
-    public function getShopTiles($shop): Collection
+    public function getShopTiles(Shop $shop): Collection
     {
         return $shop->tiles;
+    }
+
+    public function getShopTile(Tile $tile): Tile
+    {
+        $this->validateShopTile($tile);
+
+        return $tile;
+    }
+
+    private function validateShopTile(Tile $tile): void
+    {
+        $shop = $this->authManager->guard()->user()->shop;
+        if ($shop->id != $tile->shop->id) {
+            throw new TileNotWithinShopException();
+        }
     }
 }

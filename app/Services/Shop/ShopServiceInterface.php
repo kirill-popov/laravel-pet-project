@@ -5,6 +5,7 @@ namespace App\Services\Shop;
 use App\Models\Location;
 use App\Models\Map;
 use App\Models\Shop;
+use App\Models\Tile;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
 
@@ -27,4 +28,7 @@ interface ShopServiceInterface
     public function createCurrentUserShopMap(array $data): Map;
     public function updateCurrentUserShopMap(Map $map, array $data): Map;
     public function deleteCurrentUserShopMap(Map $map): Map;
+
+    public function getShopTiles(Shop $shop): Collection;
+    public function getShopTile(Tile $tile): Tile;
 }
