@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Shop;
 use App\Models\Tile;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

@@ -2,23 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TileCollection;
 use App\Models\Tile;
+use App\Services\Shop\ShopService;
+use Illuminate\Auth\AuthManager;
 use Illuminate\Http\Request;
 
 class TileController extends Controller
 {
-    public function index(Request $request, $shop_id='')
+    public function __construct(
+        protected readonly AuthManager $authManager,
+        protected readonly ShopService $shopService,
+    ) {
+    }
+
+    public function index()
     {
-        $input = $request->input();
-        // dd($input);
-        if ($request->is('api/*')) {
-            $tilesQ = Tile::with('shop');
-            if (!empty($input['shop_id']) && is_numeric($input['shop_id'])) {
-                $tilesQ->where('shop_id', '=', $input['shop_id']);
-            }
-            $tiles = $tilesQ->paginate(10);
-            return $tiles;
-        }
+        $shop = $this->authManager->guard()->user()->shop;
+        $tiles = $this->shopService->getShopTiles($shop);
+
+        return new TileCollection(
+            $tiles
+        );
     }
 
     public function show(Request $request, Tile $tile)

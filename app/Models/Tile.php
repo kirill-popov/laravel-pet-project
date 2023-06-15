@@ -17,6 +17,10 @@ class Tile extends Model
     public const SIZE_LG = 'lg';
     public const SIZE_XL = 'xl';
 
+    protected $casts = [
+        'img_only' => 'boolean'
+    ];
+
     public function shop(): BelongsTo
     {
         return $this->belongsTo(Shop::class);

@@ -57,12 +57,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('map', MapController::class)->only([
         'index', 'store', 'update', 'destroy'
     ]);
+
+    Route::apiResource('tiles', TileController::class)->only([
+        'index'
+    ]);
 });
-
-
-
-
-
-Route::apiResource('tiles', TileController::class)->only([
-    'index', 'show'
-]);

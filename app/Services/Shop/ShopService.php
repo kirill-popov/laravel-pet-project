@@ -196,4 +196,11 @@ class ShopService implements ShopServiceInterface
             throw new MapNotAllowedException();
         }
     }
+
+
+
+    public function getShopTiles($shop): Collection
+    {
+        return $shop->tiles;
+    }
 }
