@@ -23,11 +23,13 @@ class TileCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'type'      => 'required|in:'.Tile::SIZE_SM.','.Tile::SIZE_MD.','.Tile::SIZE_LG.','.Tile::SIZE_XL,
-            'link_to'   => 'required|max:255',
-            'title'     => 'nullable|max:255',
-            'subtitle'  => 'nullable|max:255',
-            'img_url'   => 'nullable|max:255',
+            'type'          => 'required|in:'.implode(',', [Tile::SIZE_SM, Tile::SIZE_MD, Tile::SIZE_LG, Tile::SIZE_XL]),
+            'link_to'       => 'required|max:255',
+            'title'         => 'nullable|max:255',
+            'subtitle'      => 'nullable|max:255',
+            'img_url'       => 'nullable|max:255',
+            'is_enabled'    => 'required|boolean',
+            'img_only'      => 'required|boolean',
         ];
     }
 }

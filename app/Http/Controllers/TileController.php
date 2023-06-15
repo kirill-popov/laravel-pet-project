@@ -27,7 +27,9 @@ class TileController extends Controller
 
     public function show(Tile $tile)
     {
-        return new TileResource($tile);
+        return new TileResource(
+            $this->shopService->getShopTile($tile)
+        );
     }
 
     public function store(TileCreateRequest $request)
