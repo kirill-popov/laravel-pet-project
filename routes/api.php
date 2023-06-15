@@ -55,7 +55,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('locations', LocationsController::class);
 
     Route::apiResource('map', MapController::class)->only([
-        'index', 'store', 'update'
+        'index', 'store', 'update', 'destroy'
     ]);
 });
 
