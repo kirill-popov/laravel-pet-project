@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Shop;
+use App\Models\Tile;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TileFactory extends Factory
@@ -15,8 +16,7 @@ class TileFactory extends Factory
     public function definition()
     {
         return [
-            // 'shop_id' => $this->faker->randomElement(Shop::all()->random()->id),
-            'type' => $this->faker->randomElement(['sm', 'md', 'lg', 'xl']),
+            'type' => $this->faker->randomElement([Tile::SIZE_SM, Tile::SIZE_MD, Tile::SIZE_LG, Tile::SIZE_XL]),
             'link_to' => $this->faker->url,
             'title' => $this->faker->words(rand(2, 5), true),
             'subtitle' => $this->faker->words(rand(5, 10), true),
