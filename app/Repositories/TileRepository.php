@@ -27,4 +27,11 @@ class TileRepository implements TileRepositoryInterface
 
         return $tile;
     }
+
+    public function deleteTile(Tile $tile): Tile
+    {
+        $tile->delete();
+
+        return $tile;
+    }
 }

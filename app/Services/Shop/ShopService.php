@@ -242,4 +242,14 @@ class ShopService implements ShopServiceInterface
 
         return $this->tileRepository->updateTile($tile, $data);
     }
+
+    public function deleteShopTile(Tile $tile): Tile
+    {
+        $shop = $this->authManager->guard()->user()->shop;
+        if ($shop->id != $tile->shop->id) {
+            throw new TileNotWithinShopException();
+        }
+
+        return $this->tileRepository->deleteTile($tile);
+    }
 }

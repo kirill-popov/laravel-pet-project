@@ -45,4 +45,11 @@ class TileController extends Controller
 
         return new TileResource($tile);
     }
+
+    public function destroy(Tile $tile)
+    {
+        $tile = $this->shopService->deleteShopTile($tile);
+
+        return new TileResource($tile);
+    }
 }

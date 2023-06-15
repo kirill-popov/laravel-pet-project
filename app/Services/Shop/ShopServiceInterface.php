@@ -33,4 +33,5 @@ interface ShopServiceInterface
     public function getShopTile(Tile $tile): Tile;
     public function createShopTile(array $data): Tile;
     public function updateShopTile(Tile $tile, array $data): Tile;
+    public function deleteShopTile(Tile $tile): Tile;
 }
