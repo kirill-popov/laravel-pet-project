@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 interface PhotoRepositoryInterface
 {
     public function storePhotoToLocation(array $data, Location $location): Photo;
-    public function updatePhoto(array $data, Photo $photo): Photo;
+    public function updatePhoto(Photo $photo, array $data): Photo;
     public function deletePhoto(Photo $photo): Photo;
     public function deletePhotoById(int $id): Photo;
     public function deletePhotos(Collection $photos): Collection;

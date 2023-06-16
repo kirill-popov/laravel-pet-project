@@ -8,7 +8,6 @@ use App\Exceptions\MapNotAllowedException;
 use App\Exceptions\TileNotWithinShopException;
 use App\Models\Location;
 use App\Models\Map;
-use App\Models\Photo;
 use App\Models\Shop;
 use App\Models\Tile;
 use App\Repositories\Interfaces\LocationRepositoryInterface;
@@ -19,6 +18,7 @@ use App\Repositories\Interfaces\SocialsRepositoryInterface;
 use App\Repositories\Interfaces\TileRepositoryInterface;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -101,31 +101,7 @@ class ShopService implements ShopServiceInterface
 
         $location_photos = $location->photos;
         if (!empty($data['photos'])) {
-            $income_ids = collect($data['photos'])->map(function (array $item, int $key) {
-                return $item['id'];
-            });
-            $exist_ids = collect($location_photos)->map(function (Photo $item, int $key) {
-                return $item->id;
-            });
-
-            $new_photos_ids = array_diff($income_ids->all(), $exist_ids->all());
-            $delete_photos_ids = array_diff($exist_ids->all(), $income_ids->all());
-            $update_photos_ids = array_intersect($exist_ids->all(), $income_ids->all());
-
-            $this->photoRepository->deletePhotosById($delete_photos_ids);
-            foreach ($data['photos'] as $income_photo) {
-                if (in_array($income_photo['id'], $new_photos_ids)) {
-                    $this->photoRepository->storePhotoToLocation($income_photo, $location);
-                }
-
-                if (in_array($income_photo['id'], $update_photos_ids)) {
-                    foreach ($location_photos as $photo) {
-                        if ($photo->id == $income_photo['id']) {
-                            $this->photoRepository->updatePhoto($income_photo, $photo);
-                        }
-                    }
-                }
-            }
+            $this->renewLocationPhotos($location, $data['photos']);
             unset($data['photos']);
         } else {
             $this->photoRepository->deletePhotos($location_photos);
@@ -134,6 +110,39 @@ class ShopService implements ShopServiceInterface
         $location = $this->locationRepository->updateLocation($data, $location);
 
         return $this->locationRepository->refreshLocation($location);
+    }
+
+    private function renewLocationPhotos(Location $location, array $income_photos)
+    {
+        $location_photos = $location->photos;
+
+        $income_ids = Arr::pluck($income_photos, 'id');
+        $exist_ids = Arr::pluck($location_photos->toArray(), 'id');
+        $ids_for_action = $this->groupIDsForAction($income_ids, $exist_ids);
+
+        foreach ($income_photos as $income_photo) {
+            if (in_array($income_photo['id'], $ids_for_action['insert'])) {
+                $this->photoRepository->storePhotoToLocation($income_photo, $location);
+            }
+
+            if (in_array($income_photo['id'], $ids_for_action['update'])) {
+                foreach ($location_photos as $photo) {
+                    if ($photo->id == $income_photo['id']) {
+                        $this->photoRepository->updatePhoto($photo, $income_photo);
+                    }
+                }
+            }
+        }
+        $this->photoRepository->deletePhotosById($ids_for_action['delete']);
+    }
+
+    private function groupIDsForAction(array $income_ids, array $exist_ids): array
+    {
+        return [
+            'insert' => array_diff($income_ids, $exist_ids),
+            'delete' => array_diff($exist_ids, $income_ids),
+            'update' => array_intersect($exist_ids, $income_ids)
+        ];
     }
 
     public function destroyLocation(Location $location)
