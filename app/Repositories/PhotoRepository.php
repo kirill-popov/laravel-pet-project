@@ -17,7 +17,7 @@ class PhotoRepository implements PhotoRepositoryInterface
         return $photo;
     }
 
-    public function updatePhoto(array $data, Photo $photo): Photo
+    public function updatePhoto(Photo $photo, array $data): Photo
     {
         $photo->update($data);
 
